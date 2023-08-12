@@ -50,7 +50,7 @@ class ControllerFormPengiriman extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'perusahaan_pengirim' => 'required',
+            'perusahaan_pengirim',
             'nama_pengirim' => 'required|min:3|max:255',
             'provinsi_pengirim' => 'required|min:3|max:255',
             'kabupatenkota_pengirim' => 'required|min:3|max:255',
@@ -61,7 +61,7 @@ class ControllerFormPengiriman extends Controller
             'nomorhp_pengirim' => 'required',
             'nomorwa_pengirim' => 'required',
 
-            'perusahaan_penerima' => 'required',
+            'perusahaan_penerima',
             'nama_penerima' => 'required|min:3|max:255',
             'provinsi_penerima' => 'required|min:3|max:255',
             'kabupatenkota_penerima' => 'required|min:3|max:255',

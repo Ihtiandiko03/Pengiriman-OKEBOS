@@ -75,7 +75,7 @@
       {{-- Pengirim --}}
       <h4 class="my-3">Pengirim</h4>
       <div class="mb-3">
-        <label for="perusahaan_pengirim" class="form-label">Perusahaan</label>
+        <label for="perusahaan_pengirim" class="form-label">Perusahaan (Opsional)</label>
         <input type="text" class="form-control @error('perusahaan_pengirim') is-invalid @enderror" id="perusahaan_pengirim" name="perusahaan_pengirim" value="{{ old('perusahaan_pengirim') }}">
         @error('perusahaan_pengirim')
             <div class="invalid-feedback">
@@ -177,7 +177,7 @@
       <h4>Penerima</h4>
 
       <div class="mb-3">
-        <label for="perusahaan_penerima" class="form-label">Perusahaan</label>
+        <label for="perusahaan_penerima" class="form-label">Perusahaan (Opsional)</label>
         <input type="text" class="form-control @error('perusahaan_penerima') is-invalid @enderror" id="perusahaan_penerima" name="perusahaan_penerima" value="{{ old('perusahaan_penerima') }}">
         @error('perusahaan_penerima')
             <div class="invalid-feedback">
