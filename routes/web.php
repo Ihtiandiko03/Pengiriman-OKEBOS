@@ -25,6 +25,10 @@ use App\Http\Controllers\HelpdeskController;
 |
 */
 
+Route::get('/foo', function () {
+    Artisan::call('storage:link');
+});
+
 Route::get('/', function () {
     return view('index');
 });
