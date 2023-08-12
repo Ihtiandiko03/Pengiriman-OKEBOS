@@ -3,16 +3,17 @@
 use App\Models\User;
 use App\Http\Middleware\Logistik;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\AgenController;
 use App\Http\Controllers\RuteController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\KurirController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\HelpdeskController;
 use App\Http\Controllers\LogistikController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\DashboardUserController;
 use App\Http\Controllers\ControllerFormPengiriman;
-use App\Http\Controllers\HelpdeskController;
 
 /*
 |--------------------------------------------------------------------------
