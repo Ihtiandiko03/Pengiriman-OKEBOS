@@ -36,8 +36,7 @@ Route::get('/foo', function () {
 Route::get('/email/emailpendaftaran', [Email::class, 'emailpendaftaran']);
 Route::get('/email/emailpengirimanbarang', [Email::class, 'emailpengirimanbarang']);
 Route::get('/email/emailpenerimaanbarang', [Email::class, 'emailpenerimaanbarang']);
-
-
+Route::get('/email/resetpassword', [Email::class, 'resetpassword']);
 
 
 Route::get('/', function () {
@@ -50,6 +49,10 @@ Route::get('/ongkir', function () {
 Route::get('/login', [LoginController::class, 'index']);
 Route::post('/login', [LoginController::class, 'authenticate']);
 Route::post('/logout', [LoginController::class, 'logout']);
+Route::get('/login/lupapassword', [LoginController::class, 'lupapassword']);
+Route::post('/login/proseslupapassword', [LoginController::class, 'proseslupapassword']);
+
+
 
 Route::get('/register', [RegisterController::class, 'index'])->name('register');
 Route::post('/register', [RegisterController::class, 'store']);

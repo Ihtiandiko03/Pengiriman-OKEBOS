@@ -93,4 +93,18 @@ class Email extends Controller
         echo ("<script LANGUAGE='JavaScript'>window.alert('Data Berhasil Disimpan');window.location.href='/dashboard/kurir/barangdiantar';</script>");
         
     }
+
+    public function resetpassword()
+    {
+        $get = Session::get('dataResetPassword');
+
+        $details = [
+            'title' => 'Reset Password Akun Pengguna OKEBOS',
+            'email' => $get['email'],
+            'password' => $get['password']
+        ];
+
+        Mail::to($get['email'])->send(new \App\Mail\EmailResetPassword($details));
+        echo ("<script LANGUAGE='JavaScript'>window.alert('Password Baru sudah dikirim ke alamat email anda. Silahkan di cek kembali.');window.location.href='/login/';</script>");
+    }
 }

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+
 
 class LoginController extends Controller
 {
@@ -184,5 +186,34 @@ class LoginController extends Controller
             'totalUser' => $getData13[0]->total,
             'link' => 'Dashboard'
         ]);
+    }
+
+    public function lupapassword(){
+        return view('login.lupapassword');
+    }
+
+    public function proseslupapassword(Request $request){
+
+        $kueri = "SELECT COUNT(`email`) as hitung FROM `users` WHERE `email` = '".$request->email."'";
+        $getData = DB::select($kueri);
+
+        if($getData == NULL){
+            echo ("<script LANGUAGE='JavaScript'>window.alert('Email Tidak Terdaftar');window.location.href='/login/lupapassword';</script>");
+        }
+        else{
+            $password = mt_rand(10000000000000, 99999999999999);
+            $generatePassword = Hash::make($password);
+            $update = DB::table('users')->where('email', $request->email)->update(['password' => $generatePassword]);
+            if($update){
+
+                $data = [
+                    'email' => $request->email,
+                    'password' => $password
+                ];
+
+                return redirect('/email/resetpassword')->with(['dataResetPassword' => $data]);
+                // echo ("<script LANGUAGE='JavaScript'>window.alert('Password Baru sudah dikirim ke alamat email anda. Silahkan di cek kembali.');window.location.href='/login/lupapassword';</script>");
+            }
+        }
     }
 }
