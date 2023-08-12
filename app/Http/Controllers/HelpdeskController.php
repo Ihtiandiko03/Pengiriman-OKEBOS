@@ -65,8 +65,8 @@ class HelpdeskController extends Controller
             $file = $request->file('bukti_foto');
             $filename = $file->getClientOriginalName();
 
-            $validatedData['bukti_foto'] = $filename;
             $validatedData['no_tiket'] = 'TIC-2023-'.$validatedData['no_tiket'];
+            $validatedData['bukti_foto'] = $validatedData['no_tiket'].'-'.$filename;
 
             $buatTiket = DB::table('helpdesk')->insert($validatedData);
 
