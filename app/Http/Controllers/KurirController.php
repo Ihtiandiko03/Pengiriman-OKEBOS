@@ -195,7 +195,18 @@ class KurirController extends Controller
 
 
                 if ($update2 == True && $update3 == True) {
-                    echo ("<script LANGUAGE='JavaScript'>window.alert('Data Berhasil Disimpan');window.location.href='/dashboard/kurir/barangdiantar';</script>");
+                    $kueri = "SELECT `pengirimen`.`nama_barang`, `users`.`email` FROM `pengirimen` JOIN `users` ON `pengirimen`.`user_id` = `users`.`id` WHERE `pengirimen`.`nomor_resi` = '".$nomor_resi."'";
+                    $getData = DB::select($kueri);
+
+                    $dataPenerimaan = [
+                        'nomor_resi' => $nomor_resi,
+                        'nama_barang' => $getData[0]->nama_barang,
+                        'email' => $getData[0]->email,
+                        'nama_penerima_barang' => $validatedData['nama_penerima_barang']
+                    ];
+                    return redirect('/email/emailpenerimaanbarang')->with(['dataPenerimaan' => $dataPenerimaan]);
+
+                    // echo ("<script LANGUAGE='JavaScript'>window.alert('Data Berhasil Disimpan');window.location.href='/dashboard/kurir/barangdiantar';</script>");
                     // return redirect('/dashboard/kurir/barangdiantar');
                 }
             }

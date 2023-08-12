@@ -11,21 +11,21 @@ use Illuminate\Support\Facades\DB;
 class HelpdeskController extends Controller
 {
     public function index(){
-        $auth = Auth::user()->nama;
+        $auth = Auth::user()->email;
 
-        $kueri = "SELECT COUNT(`nama`) as total FROM `helpdesk` WHERE `nama` = '".$auth."'";
+        $kueri = "SELECT COUNT(`email`) as total FROM `helpdesk` WHERE `email` = '".$auth."'";
         $getData = DB::select($kueri);
 
-        $kueri2 = "SELECT COUNT(`nama`) as total FROM `helpdesk` WHERE `nama` = '" . $auth . "' AND `status` ='Belum Dikerjakan'";
+        $kueri2 = "SELECT COUNT(`email`) as total FROM `helpdesk` WHERE `email` = '" . $auth . "' AND `status` ='Belum Dikerjakan'";
         $getData2 = DB::select($kueri2);
 
-        $kueri3 = "SELECT COUNT(`nama`) as total FROM `helpdesk` WHERE `nama` = '" . $auth . "' AND `status` ='Sedang Dikerjakan'";
+        $kueri3 = "SELECT COUNT(`email`) as total FROM `helpdesk` WHERE `email` = '" . $auth . "' AND `status` ='Sedang Dikerjakan'";
         $getData3 = DB::select($kueri3);
 
-        $kueri4 = "SELECT COUNT(`nama`) as total FROM `helpdesk` WHERE `nama` = '" . $auth . "' AND `status` ='Selesai Dikerjakan'";
+        $kueri4 = "SELECT COUNT(`email`) as total FROM `helpdesk` WHERE `email` = '" . $auth . "' AND `status` ='Selesai Dikerjakan'";
         $getData4 = DB::select($kueri4);
 
-        $kueri5 = "SELECT * FROM `helpdesk` WHERE `nama` = '" . $auth . "' ORDER BY `id` DESC";
+        $kueri5 = "SELECT * FROM `helpdesk` WHERE `email` = '" . $auth . "' ORDER BY `id` DESC";
         $getData5 = DB::select($kueri5);
 
         return view('dashboard.helpdesk.index', [

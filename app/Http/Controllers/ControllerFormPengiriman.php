@@ -116,8 +116,10 @@ class ControllerFormPengiriman extends Controller
         DB::table('posisi_barang')->insert($validatedData2);
         DB::table('daftar_pengiriman_kurir')->insert($validatedData3);
 
-        echo ("<script LANGUAGE='JavaScript'>window.alert('Pengiriman Berhasil Dibuat. Silahkan Menunggu Kurir Menjemput Barang Anda');window.location.href='/dashboard/pengiriman';</script>");
+        // echo ("<script LANGUAGE='JavaScript'>window.alert('Pengiriman Berhasil Dibuat. Silahkan Menunggu Kurir Menjemput Barang Anda');window.location.href='/dashboard/pengiriman';</script>");
         // return redirect('dashboard/pengiriman');
+        return redirect('/email/emailpengirimanbarang')->with(['dataPengiriman' => $validatedData]);
+
     }
 
     /**

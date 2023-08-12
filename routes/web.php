@@ -2,12 +2,14 @@
 
 use App\Models\User;
 use App\Http\Middleware\Logistik;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\AgenController;
 use App\Http\Controllers\RuteController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\KurirController;
+use App\Http\Controllers\Email;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\HelpdeskController;
 use App\Http\Controllers\LogistikController;
@@ -29,6 +31,14 @@ use App\Http\Controllers\ControllerFormPengiriman;
 Route::get('/foo', function () {
     Artisan::call('storage:link');
 });
+
+
+Route::get('/email/emailpendaftaran', [Email::class, 'emailpendaftaran']);
+Route::get('/email/emailpengirimanbarang', [Email::class, 'emailpengirimanbarang']);
+Route::get('/email/emailpenerimaanbarang', [Email::class, 'emailpenerimaanbarang']);
+
+
+
 
 Route::get('/', function () {
     return view('index');

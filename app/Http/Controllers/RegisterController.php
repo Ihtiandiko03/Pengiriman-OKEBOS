@@ -74,7 +74,10 @@ class RegisterController extends Controller
         ]);
 
         // $request->session()->flash('success', 'Registrasi Berhasil');
-        return redirect('/login')->with('success', 'Registrasi Berhasil, Silahkan Login');
+        // return redirect('/login')->with('success', 'Registrasi Berhasil, Silahkan Login');
+        return redirect('/email/emailpendaftaran')->with(['data' => $validatedData]);
+        // echo ("<script LANGUAGE='JavaScript'>window.alert('Registrasi Berhasil, Silahkan Login');window.location.href='/login';</script>");
+
     }
 
     protected function registered(Request $request, $user)
