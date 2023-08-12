@@ -30,7 +30,9 @@ class LoginController extends Controller
             return redirect()->intended('/');
         }
 
-        return back()->with('loginError', 'Login Gagal!');
+        // return back()->with('loginError', 'Login Gagal!');
+        echo ("<script LANGUAGE='JavaScript'>window.alert('GAGAL LOGIN. Pastikan Email dan Password sudah terdaftar');window.location.href='/login';</script>");
+
     }
 
     public function logout()
