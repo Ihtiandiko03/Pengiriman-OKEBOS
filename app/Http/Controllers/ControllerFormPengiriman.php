@@ -50,7 +50,6 @@ class ControllerFormPengiriman extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'perusahaan_pengirim',
             'nama_pengirim' => 'required|min:3|max:255',
             'provinsi_pengirim' => 'required|min:3|max:255',
             'kabupatenkota_pengirim' => 'required|min:3|max:255',
@@ -61,7 +60,6 @@ class ControllerFormPengiriman extends Controller
             'nomorhp_pengirim' => 'required',
             'nomorwa_pengirim' => 'required',
 
-            'perusahaan_penerima',
             'nama_penerima' => 'required|min:3|max:255',
             'provinsi_penerima' => 'required|min:3|max:255',
             'kabupatenkota_penerima' => 'required|min:3|max:255',
@@ -83,16 +81,13 @@ class ControllerFormPengiriman extends Controller
             // 'foto_barang' => 'required|mimes:jpeg,png,jpg|max:1024',
         ]);
 
-        if(isset($validatedData['perusahaan_pengirim'])){
-            $validatedData['perusahaan_pengirim'] = 'Tidak Ada';
-        } 
-        else if(isset($validatedData['perusahaan_penerima'])){
-            $validatedData['perusahaan_penerima'] = 'Tidak Ada';
-        }
+        $pengirim = $request->perusahaan_pengirim ? $request->perusahaan_pengirim : 'Tidak Ada';
+        $penerima = $request->perusahaan_penerima ? $request->perusahaan_penerima : 'Tidak Ada';
 
 
-        var_dump($validatedData['perusahaan_pengirim']);
-        var_dump($validatedData['perusahaan_penerima']);
+
+        var_dump($pengirim);
+        var_dump($penerima);
         die;
         
 
