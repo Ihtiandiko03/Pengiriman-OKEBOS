@@ -82,7 +82,15 @@ class ControllerFormPengiriman extends Controller
             'status' => 'required',
             // 'foto_barang' => 'required|mimes:jpeg,png,jpg|max:1024',
         ]);
-        
+
+        if(isset($validatedData['perusahaan_pengirim'])){
+            $validatedData['perusahaan_pengirim'] = 'Tidak Ada';
+        } 
+        else if(isset($validatedData['perusahaan_penerima'])){
+            $validatedData['perusahaan_penerima'] = 'Tidak Ada';
+        }
+
+
         var_dump($validatedData['perusahaan_pengirim']);
         var_dump($validatedData['perusahaan_penerima']);
         die;
