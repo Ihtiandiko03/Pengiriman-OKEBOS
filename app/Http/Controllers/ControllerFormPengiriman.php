@@ -81,13 +81,13 @@ class ControllerFormPengiriman extends Controller
             // 'foto_barang' => 'required|mimes:jpeg,png,jpg|max:1024',
         ]);
 
-        $pengirim = $request->perusahaan_pengirim ? $request->perusahaan_pengirim : 'Tidak Ada';
-        $penerima = $request->perusahaan_penerima ? $request->perusahaan_penerima : 'Tidak Ada';
+        $validatedData['perusahaan_pengirim'] = $request->perusahaan_pengirim ? $request->perusahaan_pengirim : 'Tidak Ada';
+        $validatedData['perusahaan_penerima'] = $request->perusahaan_penerima ? $request->perusahaan_penerima : 'Tidak Ada';
 
 
 
-        var_dump($pengirim);
-        var_dump($penerima);
+        var_dump($validatedData['perusahaan_pengirim']);
+        var_dump($validatedData['perusahaan_penerima']);
         die;
         
 
