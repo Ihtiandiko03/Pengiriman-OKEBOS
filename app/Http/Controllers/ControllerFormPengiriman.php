@@ -32,8 +32,11 @@ class ControllerFormPengiriman extends Controller
      */
     public function create()
     {
+        $kueri = "SELECT * FROM `rutes` WHERE is_active = 1";
+        $getData = DB::select($kueri);
+
         return view('dashboard.pengiriman.create', [
-            'rutes' => Rute::all(),
+            'rutes' => $getData,
             'link' => 'Pengiriman'
         ]);
     }
