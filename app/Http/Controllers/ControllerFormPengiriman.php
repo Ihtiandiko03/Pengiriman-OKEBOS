@@ -84,11 +84,9 @@ class ControllerFormPengiriman extends Controller
         $validatedData['perusahaan_pengirim'] = $request->perusahaan_pengirim ? $request->perusahaan_pengirim : 'Tidak Ada';
         $validatedData['perusahaan_penerima'] = $request->perusahaan_penerima ? $request->perusahaan_penerima : 'Tidak Ada';
 
-
-
-        var_dump($validatedData['perusahaan_pengirim']);
-        var_dump($validatedData['perusahaan_penerima']);
-        die;
+        // var_dump($validatedData['perusahaan_pengirim']);
+        // var_dump($validatedData['perusahaan_penerima']);
+        // die;
         
 
         // $validatedData['status'] = $_POST['status'];
