@@ -37,7 +37,6 @@ class RegisterController extends Controller
 
         
         $validatedData = $request->validate([
-            'perusahaan' => 'required|max:200',
             'nama' => 'required|max:200',
             'username' => ['required', 'min:8', 'max:255', 'unique:users'],
             'email' => 'required',
@@ -50,6 +49,8 @@ class RegisterController extends Controller
             'provinsi' => 'required|min:3|max:255',
             'referrer_id',
         ]);
+
+        $validatedData['perusahaan'] = $request->perusahaan ? $request->perusahaan : '';
 
         // $validatedData['password'] = bcrypt($validatedData['password']);
         // $validatedData['password'] = Hash::make($validatedData['password']);
