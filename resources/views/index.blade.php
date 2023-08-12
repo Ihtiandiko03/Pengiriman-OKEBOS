@@ -96,7 +96,7 @@
                     </div>
 
                     <ul class="nav__list">
-                        <li class="nav__item"><a href="/" class="nav__link active">Homes</a></li>
+                        <li class="nav__item"><a href="/" class="nav__link active">Homesssssss</a></li>
                         <li class="nav__item"><a href="/login" class="nav__link">Pengiriman</a></li>
                         <li class="nav__item"><a href="/ongkir" class="nav__link">Cek Ongkir</a></li>
                         @auth
