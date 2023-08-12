@@ -70,7 +70,7 @@ class HelpdeskController extends Controller
 
             $buatTiket = DB::table('helpdesk')->insert($validatedData);
 
-            $file->storeAs('foto_helpdesk/', $filename);
+            $file->storeAs('foto_helpdesk/', $validatedData['bukti_foto']);
         } else{
             $validatedData2 = $request->validate([
                 'nama',
