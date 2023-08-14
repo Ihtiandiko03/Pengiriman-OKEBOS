@@ -59,13 +59,13 @@ Route::post('/register', [RegisterController::class, 'store']);
 
 // Route::get('/dashboard', function () {
 //     return view('dashboard.index');
-// })->middleware('auth');
+// });
 
-Route::get('/dashboard', [LoginController::class, 'setelahlogin'])->middleware('auth');
+Route::get('/dashboard', [LoginController::class, 'setelahlogin']);
 
-Route::resource('/dashboard/profil', DashboardUserController::class)->middleware('auth');
-Route::resource('/dashboard/pengiriman', ControllerFormPengiriman::class)->middleware('auth');
-Route::get('/dashboard/pengiriman/barangkeluar/index', [ControllerFormPengiriman::class, 'barangKeluar'])->middleware('auth');
+Route::resource('/dashboard/profil', DashboardUserController::class);
+Route::resource('/dashboard/pengiriman', ControllerFormPengiriman::class);
+Route::get('/dashboard/pengiriman/barangkeluar/index', [ControllerFormPengiriman::class, 'barangKeluar']);
 
 
 Route::get('/dashboard/admin/agen', [AdminController::class, 'agen'])->middleware('admin');
@@ -84,13 +84,13 @@ Route::post('/dashboard/ubahprofilkurir', [AdminController::class, 'storeProfilK
 
 
 Route::resource('/dashboard/rute', RuteController::class)->middleware('admin');
-// Route::resource('/dashboard/kurir', KurirController::class)->middleware('auth');
-Route::get('/dashboard/kurir', [KurirController::class, 'index'])->middleware('auth');
-Route::get('/dashboard/kurir/barangdiantar', [KurirController::class, 'barangdiantar'])->middleware('auth');
-Route::get('/dashboard/kurir/barangdiantar/proses/{id}', [KurirController::class, 'barangdiantarproses'])->middleware('auth');
-Route::get('/dashboard/kurir/pesananditerima/{id}', [KurirController::class, 'pesananditerima'])->middleware('auth');
-Route::post('/dashboard/kurir/prosespenerimaanbarang/{id}', [KurirController::class, 'prosespenerimaanbarang'])->middleware('auth');
-Route::get('/dashboard/kurir/lihatdetailkurir/{id}', [KurirController::class, 'lihatdetailkurir'])->middleware('auth');
+// Route::resource('/dashboard/kurir', KurirController::class);
+Route::get('/dashboard/kurir', [KurirController::class, 'index']);
+Route::get('/dashboard/kurir/barangdiantar', [KurirController::class, 'barangdiantar']);
+Route::get('/dashboard/kurir/barangdiantar/proses/{id}', [KurirController::class, 'barangdiantarproses']);
+Route::get('/dashboard/kurir/pesananditerima/{id}', [KurirController::class, 'pesananditerima']);
+Route::post('/dashboard/kurir/prosespenerimaanbarang/{id}', [KurirController::class, 'prosespenerimaanbarang']);
+Route::get('/dashboard/kurir/lihatdetailkurir/{id}', [KurirController::class, 'lihatdetailkurir']);
 
 
 
@@ -103,40 +103,40 @@ Route::get('/dashboard/agen/kuriragen/showkurir', [AgenController::class, 'showK
 // Route::get('/dashboard/pengiriman/verifikasi/AgenKeAgen/', [ControllerFormPengiriman::class, 'verifAgenKeAgen'])->middleware('agen');
 
 // Route::resource('/dashboard/logistik', LogistikController::class);
-Route::get('/dashboard/logistik', [LogistikController::class, 'index'])->middleware('auth');
-Route::get('/dashboard/logistik/verifikasi/{id}', [LogistikController::class, 'verifikasi'])->middleware('auth');
-Route::put('/dashboard/logistik/prosesverifikasi/{id}', [LogistikController::class, 'prosesverifikasi'])->middleware('auth');
-Route::get('/dashboard/logistik/penjadwalan', [LogistikController::class, 'penjadwalan'])->middleware('auth');
-Route::get('/dashboard/logistik/penjadwalanbarang/{id}', [LogistikController::class, 'penjadwalanbarang'])->middleware('auth');
-Route::post('/dashboard/logistik/prosespenjadwalanbarang/{id}', [LogistikController::class, 'prosespenjadwalanbarang'])->middleware('auth');
-Route::get('/dashboard/logistik/penjadwalanbarangantarkota/{id}', [LogistikController::class, 'penjadwalanbarangantarkota'])->middleware('auth');
-Route::post('/dashboard/logistik/prosespenjadwalanbarangantarkota/{id}', [LogistikController::class, 'prosespenjadwalanbarangantarkota'])->middleware('auth');
-Route::get('/dashboard/logistik/verifikasibarangdariagen/{id}', [LogistikController::class, 'verifikasibarangdariagen'])->middleware('auth');
+Route::get('/dashboard/logistik', [LogistikController::class, 'index']);
+Route::get('/dashboard/logistik/verifikasi/{id}', [LogistikController::class, 'verifikasi']);
+Route::put('/dashboard/logistik/prosesverifikasi/{id}', [LogistikController::class, 'prosesverifikasi']);
+Route::get('/dashboard/logistik/penjadwalan', [LogistikController::class, 'penjadwalan']);
+Route::get('/dashboard/logistik/penjadwalanbarang/{id}', [LogistikController::class, 'penjadwalanbarang']);
+Route::post('/dashboard/logistik/prosespenjadwalanbarang/{id}', [LogistikController::class, 'prosespenjadwalanbarang']);
+Route::get('/dashboard/logistik/penjadwalanbarangantarkota/{id}', [LogistikController::class, 'penjadwalanbarangantarkota']);
+Route::post('/dashboard/logistik/prosespenjadwalanbarangantarkota/{id}', [LogistikController::class, 'prosespenjadwalanbarangantarkota']);
+Route::get('/dashboard/logistik/verifikasibarangdariagen/{id}', [LogistikController::class, 'verifikasibarangdariagen']);
 Route::get('/dashboard/logistik/showakunlogistik/{id}', [LogistikController::class, 'showakunlogistik']);
 Route::get('/dashboard/logistik/createakunlogistik', [LogistikController::class, 'createakunlogistik'])->middleware('admin');
 Route::post('/dashboard/logistik/createlogistik', [LogistikController::class, 'createlogistik'])->middleware('admin');
 Route::get('/dashboard/logistik/ubahakun/{id}', [LogistikController::class, 'ubahakun'])->middleware('admin');
 Route::post('/dashboard/logistik/prosesubahakun/{id}', [LogistikController::class, 'prosesubahakun'])->middleware('admin');
 Route::post('/dashboard/logistik/hapusakun/{id}', [LogistikController::class, 'hapusakun'])->middleware('admin');
-Route::get('/dashboard/logistik/cetak_resi/{id}', [LogistikController::class, 'cetakresi'])->middleware('auth');
-Route::get('/dashboard/logistik/lihatdetailpengiriman/{id}', [LogistikController::class, 'lihatdetailpengiriman'])->middleware('auth');
-Route::get('/dashboard/logistik/verifikasibarangditerimalogistik/{id}', [LogistikController::class, 'verifikasibarangditerimalogistik'])->middleware('auth');
+Route::get('/dashboard/logistik/cetak_resi/{id}', [LogistikController::class, 'cetakresi']);
+Route::get('/dashboard/logistik/lihatdetailpengiriman/{id}', [LogistikController::class, 'lihatdetailpengiriman']);
+Route::get('/dashboard/logistik/verifikasibarangditerimalogistik/{id}', [LogistikController::class, 'verifikasibarangditerimalogistik']);
 
 
 
-Route::get('/dashboard/helpdesk', [HelpdeskController::class, 'index'])->middleware('auth');
-Route::get('/dashboard/helpdesk/buattiket', [HelpdeskController::class, 'buattiket'])->middleware('auth');
-Route::post('/dashboard/helpdesk/prosesbuattiket', [HelpdeskController::class, 'prosesbuattiket'])->middleware('auth');
-Route::get('/dashboard/helpdesk/lihattiket/{id}', [HelpdeskController::class, 'lihattiket'])->middleware('auth');
+Route::get('/dashboard/helpdesk', [HelpdeskController::class, 'index']);
+Route::get('/dashboard/helpdesk/buattiket', [HelpdeskController::class, 'buattiket']);
+Route::post('/dashboard/helpdesk/prosesbuattiket', [HelpdeskController::class, 'prosesbuattiket']);
+Route::get('/dashboard/helpdesk/lihattiket/{id}', [HelpdeskController::class, 'lihattiket']);
 Route::get('/dashboard/helpdesk/kelolahelpdesk', [HelpdeskController::class, 'kelolahelpdesk'])->middleware('admin');
-Route::get('/dashboard/helpdesk/kelolatiket/{id}', [HelpdeskController::class, 'kelolatiket'])->middleware('auth');
-Route::post('/dashboard/helpdesk/proseskelolatiket/{id}', [HelpdeskController::class, 'proseskelolatiket'])->middleware('auth');
+Route::get('/dashboard/helpdesk/kelolatiket/{id}', [HelpdeskController::class, 'kelolatiket']);
+Route::post('/dashboard/helpdesk/proseskelolatiket/{id}', [HelpdeskController::class, 'proseskelolatiket']);
 
 
 
 
-Route::get('/dashboard/kurir/ambil', [KurirController::class, 'ambil'])->middleware('auth');
+Route::get('/dashboard/kurir/ambil', [KurirController::class, 'ambil']);
 
 Route::get('/dashboard/saldo', function () {
     return view('dashboard.saldo.index');
-})->middleware('auth');
+});
