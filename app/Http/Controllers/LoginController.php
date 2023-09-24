@@ -32,7 +32,6 @@ class LoginController extends Controller
             return redirect()->intended('/');
         }
 
-        // return back()->with('loginError', 'Login Gagal!');
         echo ("<script LANGUAGE='JavaScript'>window.alert('GAGAL LOGIN. Pastikan Email dan Password sudah terdaftar');window.location.href='/login';</script>");
 
     }
@@ -212,7 +211,6 @@ class LoginController extends Controller
                 ];
 
                 return redirect('/email/resetpassword')->with(['dataResetPassword' => $data]);
-                // echo ("<script LANGUAGE='JavaScript'>window.alert('Password Baru sudah dikirim ke alamat email anda. Silahkan di cek kembali.');window.location.href='/login/lupapassword';</script>");
             }
         }
     }

@@ -21,21 +21,6 @@ class RegisterController extends Controller
 
     public function store(Request $request)
     {
-
-        // var_dump($request['perusahaan']);
-        // var_dump($request['nama']);
-        // var_dump($request['username']);
-        // var_dump($request['email']);
-        // var_dump($request['password']);
-        // var_dump($request['alamat']);
-        // var_dump($request['kelurahan']);
-        // var_dump($request['kecamatan']);
-        // var_dump($request['kabupatenkota']);
-        // var_dump($request['provinsi']);
-        // var_dump($request['refferer_id']);
-        // die;
-
-        
         $validatedData = $request->validate([
             'nama' => 'required|max:200',
             'username' => ['required', 'min:8', 'max:255', 'unique:users'],
@@ -51,11 +36,6 @@ class RegisterController extends Controller
         ]);
 
         $validatedData['perusahaan'] = $request->perusahaan ? $request->perusahaan : '';
-
-        // $validatedData['password'] = bcrypt($validatedData['password']);
-        // $validatedData['password'] = Hash::make($validatedData['password']);
-
-        // $referrer = User::whereUsername(session()->pull('referrer'))->first();
         $referrer = User::with('recursiveReferrer')->first();
 
         User::create([
@@ -73,11 +53,7 @@ class RegisterController extends Controller
             'password'    => Hash::make($request['password']),
         ]);
 
-        // $request->session()->flash('success', 'Registrasi Berhasil');
-        // return redirect('/login')->with('success', 'Registrasi Berhasil, Silahkan Login');
         return redirect('/email/emailpendaftaran')->with(['data' => $validatedData]);
-        // echo ("<script LANGUAGE='JavaScript'>window.alert('Registrasi Berhasil, Silahkan Login');window.location.href='/login';</script>");
-
     }
 
     protected function registered(Request $request, $user)

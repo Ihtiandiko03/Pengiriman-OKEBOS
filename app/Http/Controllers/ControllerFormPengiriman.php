@@ -17,8 +17,6 @@ class ControllerFormPengiriman extends Controller
      */
     public function index()
     {
-        
-
         return view('dashboard.pengiriman.index', [
             'pengiriman' => Pengiriman::where('user_id', '=', auth()->user()->id)->latest()->get(),
             'link' => 'Pengiriman'
@@ -130,20 +128,9 @@ class ControllerFormPengiriman extends Controller
      */
     public function show($id)
     {
-        // $usr = Pengiriman::where('user_id', '=', auth()->user()->id)->latest()->get();
-        // var_dump($usr);
-        // die;
-
-        
         $usr = Pengiriman::where('id', $id)->get();
         $usr2 = DB::table('posisi_barang')->where('nomor_resi', $usr[0]->nomor_resi)->get();
         $usr3 = DB::table('daftar_pengiriman_kurir')->where('nomor_resi', $usr[0]->nomor_resi)->get();
-
-        // var_dump($usr3);
-        // die;
-
-        // var_dump($usr3[0]->nama_penerima_barang);
-        // die;
 
         $penerima_barang = $usr3[0]->nama_penerima_barang? $usr3[0]->nama_penerima_barang:'Tidak Ada';
         $bukti_terima = $usr3[0]->foto_penerimaan_barang? $usr3[0]->foto_penerimaan_barang:'Tidak Ada';

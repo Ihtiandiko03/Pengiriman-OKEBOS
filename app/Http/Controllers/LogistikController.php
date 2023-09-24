@@ -17,9 +17,6 @@ class LogistikController extends Controller
 
         $users2 = DB::table('posisi_barang')->select('nomor_resi')->distinct()->get();
 
-        // var_dump($auth);
-        // die;
-
         $query = 'SELECT `posisi_barang`.`nama_petugas`,`posisi_barang`.`nama_agen`,`posisi_barang`.`status`, `pengirimen`.`id`, `pengirimen`.`nomor_resi`,`pengirimen`.`created_at` FROM `posisi_barang` JOIN `pengirimen` ON `pengirimen`.`nomor_resi` = `posisi_barang`.`nomor_resi` WHERE `pengirimen`.`rute_awal`=' . $auth . ' AND `pengirimen`.`jenis_pengiriman`= "Dalam Kota" AND (`posisi_barang`.`status` <> "Pengiriman Berhasil Dibuat" AND `posisi_barang`.`status` <> "Verifikasi Kurir ke Logistik") AND ( ';
         $query2 = 'SELECT `posisi_barang`.`nama_petugas`,`posisi_barang`.`nama_agen`,`posisi_barang`.`status`, `pengirimen`.`id`, `pengirimen`.`nomor_resi`,`pengirimen`.`created_at` FROM `posisi_barang` JOIN `pengirimen` ON `pengirimen`.`nomor_resi` = `posisi_barang`.`nomor_resi` WHERE `pengirimen`.`rute_awal`=' . $auth . ' AND `pengirimen`.`jenis_pengiriman`= "Luar Kota" AND (`posisi_barang`.`status` <> "Pengiriman Berhasil Dibuat" AND `posisi_barang`.`status` <> "Verifikasi Kurir ke Logistik") AND ( ';
         $query3 = 'SELECT `posisi_barang`.`nama_petugas`,`posisi_barang`.`nama_agen`,`posisi_barang`.`status`, `pengirimen`.`id`, `pengirimen`.`nomor_resi`,`pengirimen`.`created_at` FROM `posisi_barang` JOIN `pengirimen` ON `pengirimen`.`nomor_resi` = `posisi_barang`.`nomor_resi` WHERE `pengirimen`.`rute_tujuan`=' . $auth . ' AND `pengirimen`.`jenis_pengiriman`= "Luar Kota" AND (`posisi_barang`.`status` <> "Pengiriman Berhasil Dibuat" AND `posisi_barang`.`status` <> "Verifikasi Kurir ke Logistik") AND ( ';
@@ -28,7 +25,6 @@ class LogistikController extends Controller
             $query .= ' `posisi_barang`.`id`=(SELECT MAX(`posisi_barang`.`id`) FROM `posisi_barang` WHERE `posisi_barang`.`nomor_resi`=' . $u->nomor_resi . ') OR ';
             $query2 .= ' `posisi_barang`.`id`=(SELECT MAX(`posisi_barang`.`id`) FROM `posisi_barang` WHERE `posisi_barang`.`nomor_resi`=' . $u->nomor_resi . ') OR ';
             $query3 .= ' `posisi_barang`.`id`=(SELECT MAX(`posisi_barang`.`id`) FROM `posisi_barang` WHERE `posisi_barang`.`nomor_resi`=' . $u->nomor_resi . ') OR ';
-            
         }
 
         $query = substr($query, 0, -3);
@@ -40,15 +36,9 @@ class LogistikController extends Controller
         $query2 .= ')';
         $query3 .= ')';
 
-        // var_dump($query3);
-        // die;
-
         $getDalamKota = DB::select($query);
         $getLuarKota = DB::select($query2);
         $getDariAgen = DB::select($query3);
-
-        // var_dump($query);
-        // die;
 
 
         return view('dashboard.logistik.barangmasuk', [

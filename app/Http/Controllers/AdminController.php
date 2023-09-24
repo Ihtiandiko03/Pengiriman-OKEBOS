@@ -11,23 +11,12 @@ use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $this->authorize('admin');
 
         return view('dashboard.admin.index');
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
 
     public function driver()
     {
@@ -52,9 +41,6 @@ class AdminController extends Controller
         $kueri7 = "SELECT COUNT(`id`) as total FROM `users` WHERE (`kurir_antar`= 1 OR `kurir_jemput` = 1) AND `is_active` = 0";
         $getData7 = DB::select($kueri7);
 
-        // var_dump($kueri);
-        // die;
-
         return view('dashboard.admin.showdriver', [
             'kurir' => $getData,
             'total' => $getData2[0]->total,
@@ -69,7 +55,6 @@ class AdminController extends Controller
 
     public function agen()
     {
-        // $getData = User::where('agen', '=', 1)->latest()->get();
 
         $kueri = "SELECT `users`.`nama`,`users`.`no_telephone`, `users`.`username`,`users`.`is_active`, `rutes`.`kecamatan`,`rutes`.`kabupatenkota` FROM `users` JOIN `rutes` ON `rutes`.`id` = `users`.`kantor_cabang` WHERE `users`.`agen` = '1' ORDER BY `users`.`id` DESC";
         $getData = DB::select($kueri);
@@ -133,10 +118,6 @@ class AdminController extends Controller
         $getData3 = DB::select($kueri3);
         $kueri4 = "SELECT COUNT(`id`) as total FROm `pengirimen` WHERE `status` = 'Selesai'";
         $getData4 = DB::select($kueri4);
-
-
-        // var_dump($pengiriman);
-        // die;
 
         return view('dashboard.admin.pengiriman', [
             'pengiriman' => $pengiriman,

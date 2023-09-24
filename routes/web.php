@@ -16,6 +16,7 @@ use App\Http\Controllers\LogistikController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\DashboardUserController;
 use App\Http\Controllers\ControllerFormPengiriman;
+use App\Http\Controllers\SettingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -132,7 +133,18 @@ Route::get('/dashboard/helpdesk/kelolahelpdesk', [HelpdeskController::class, 'ke
 Route::get('/dashboard/helpdesk/kelolatiket/{id}', [HelpdeskController::class, 'kelolatiket'])->middleware('auth');
 Route::post('/dashboard/helpdesk/proseskelolatiket/{id}', [HelpdeskController::class, 'proseskelolatiket'])->middleware('auth');
 
+//Setting
+Route::get('/dashboard/setting', [SettingController::class, 'index'])->middleware('auth');
+Route::get('/dashboard/setting/edit/{id}', [SettingController::class, 'editsetting'])->middleware('auth');
+Route::put('/dashboard/setting/proseseditsetting/{id}', [SettingController::class, 'proseseditsetting'])->middleware('auth');
 
+//Ongkir
+Route::get('/dashboard/ongkir', [SettingController::class, 'indexongkir'])->middleware('auth');
+Route::get('/dashboard/ongkir/tambahongkir', [SettingController::class, 'tambahongkir'])->middleware('auth');
+Route::post('/dashboard/ongkir/prosestambahongkir', [SettingController::class, 'prosestambahongkir'])->middleware('auth');
+Route::get('/dashboard/ongkir/ubahongkir/{id}', [SettingController::class, 'ubahongkir'])->middleware('auth');
+Route::put('/dashboard/ongkir/prosesubahongkir/{id}', [SettingController::class, 'prosesubahongkir'])->middleware('auth');
+Route::delete('/dashboard/ongkir/hapusongkir/{id}', [SettingController::class, 'hapusongkir'])->middleware('auth');
 
 
 Route::get('/dashboard/kurir/ambil', [KurirController::class, 'ambil'])->middleware('auth');
