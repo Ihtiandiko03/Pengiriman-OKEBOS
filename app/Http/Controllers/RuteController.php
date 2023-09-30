@@ -99,7 +99,8 @@ class RuteController extends Controller
     {
         $rules = [
             'kecamatan' => 'min:3|max:255',
-            'kabupatenkota' => 'min:3|max:255'
+            'kabupatenkota' => 'min:3|max:255',
+            'provinsi' => 'min:3|max:255'
         ];
 
         $validated = $request->validate($rules);
