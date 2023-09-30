@@ -166,7 +166,10 @@ class LogistikController extends Controller
 
     public function prosesverifikasi($nomor_resi, Request $request){
         $validatedData = $request->validate([
+            'jumlah_barang' => 'required',
+            'jenis_barang' => 'required',
             'berat_barang' => 'required',
+            'metode_pembayaran' => 'required',
             'harga' => 'required',
             'foto_barang' => 'required|mimes:jpeg,png,jpg',
             'foto_bukti_pembayaran' => 'required|mimes:jpeg,png,jpg',
@@ -465,6 +468,134 @@ class LogistikController extends Controller
             'bukti_terima' => $bukti_terima,
             'link' => 'List Pengiriman'
         ]);
+    }
+
+    public function getProvinsi(Request $request){
+        $provinsi = $request['provinsi'];
+
+        $kueri = "SELECT `kabupatenkota` FROM `rutes` WHERE is_active = 1 AND provinsi = '$provinsi' GROUP BY `kabupatenkota`";
+        $getData = DB::select($kueri);
+
+        $kirim = '<select class="form-select" id="kabupatenkota_pengirim" name="kabupatenkota_pengirim" onchange="functionKabupaten()"><option value="">Pilih</option>';
+        foreach ($getData as $item) {
+            $kirim .= "<option value='".$item->kabupatenkota."'>".$item->kabupatenkota.'</option>';
+        }
+
+        $kirim .= '</select>';
+
+        echo json_encode($kirim);
+    }
+
+    public function getkabupatenkota(Request $request){
+        $kabupatenkota = $request['kabupatenkota'];
+
+        $kueri = "SELECT `kecamatan` FROM `rutes` WHERE is_active = 1 AND kabupatenkota = '$kabupatenkota'";
+        $getData = DB::select($kueri);
+
+        $kirim = '<select class="form-select" id="kecamatan_pengirim" name="kecamatan_pengirim"><option value="">Pilih</option>';
+        foreach ($getData as $item) {
+            $kirim .= "<option value='" . $item->kecamatan . "'>" . $item->kecamatan . '</option>';
+        }
+
+        $kirim .= '</select>';
+
+        echo json_encode($kirim);
+    }
+
+    public function getProvinsiPenerima(Request $request)
+    {
+        $provinsi = $request['provinsi'];
+
+        $kueri = "SELECT `kabupatenkota` FROM `rutes` WHERE is_active = 1 AND provinsi = '$provinsi' GROUP BY `kabupatenkota`";
+        $getData = DB::select($kueri);
+
+        $kirim = '<select class="form-select" id="kabupatenkota_penerima" name="kabupatenkota_penerima" onchange="functionKabupatenPenerima()"><option value="">Pilih</option>';
+        foreach ($getData as $item) {
+            $kirim .= "<option value='" . $item->kabupatenkota . "'>" . $item->kabupatenkota . '</option>';
+        }
+
+        $kirim .= '</select>';
+
+        echo json_encode($kirim);
+    }
+
+    public function getkabupatenkotapenerima(Request $request)
+    {
+        $kabupatenkota = $request['kabupatenkota'];
+
+        $kueri = "SELECT `kecamatan` FROM `rutes` WHERE is_active = 1 AND kabupatenkota = '$kabupatenkota'";
+        $getData = DB::select($kueri);
+
+        $kirim = '<select class="form-select" id="kecamatan_penerima" name="kecamatan_penerima"><option value="">Pilih</option>';
+        foreach ($getData as $item) {
+            $kirim .= "<option value='" . $item->kecamatan . "'>" . $item->kecamatan . '</option>';
+        }
+
+        $kirim .= '</select>';
+
+        echo json_encode($kirim);
+    }
+
+    public function metode(Request $request){
+        $metode_pembayaran = $request['metode_pembayaran'];
+        $berat_barang = round($request['berat_barang']);
+        $rute_awal = $request['rute_awal'];
+        $rute_tujuan = $request['rute_tujuan'];
+
+        $ongkir = 0; $tambahan = 0; $potongan = 0;
+
+        $kueri = "SELECT * FROM setting";
+        $getData = DB::select($kueri);
+        $kueri2 = "SELECT * FROM ongkir WHERE rute_awal = $rute_awal AND rute_tujuan = $rute_tujuan";
+        $getData2= DB::select($kueri2);
+
+        if ($berat_barang <= 2) {
+            $tambahan = 0;
+        } else {
+            //Ongkir per Kilo
+            $tambahan = ($berat_barang - 2) * ($getData[2]->nilai);
+        }
+
+        $ongkir = $getData2[0]->harga + $tambahan;
+
+        if ($getData[0]->nilai != 0 && $getData[1]->nilai == 0) {
+            $potongan = $ongkir * $getData[0]->nilai;
+        } else if ($getData[0]->nilai != 0 && $getData[1]->nilai == 0) {
+            $potongan = $getData[1]->nilai;
+        }
+
+        $ongkir = $ongkir - $potongan;
+
+        if($metode_pembayaran == 'Tunai' || $metode_pembayaran == 'Transfer'){
+            $kirim = '<input type="text" class="form-control" id="harga" name="harga" value="'.$ongkir.'" readonly>';
+            echo json_encode($kirim);
+        }
+
+        else if($metode_pembayaran == 'COD'){
+            if($ongkir <= $getData[5]->nilai){
+                $ongkir = $ongkir + $getData[4]->nilai;
+            }
+            else{
+                $cod = $ongkir * ($getData[3]->nilai / 100);
+                $ongkir = $ongkir + $cod;
+            }
+
+            $kirim = '<input type="text" class="form-control" id="harga" name="harga" value="' . $ongkir . '" readonly>';
+            echo json_encode($kirim);
+        }
+
+        else if($metode_pembayaran == 'None'){
+            // $kirim = '<label for="harga">Estimasi Biaya</label> <input type="text" id="harga" name="harga" value="Rp.' . $ongkir . ',00"
+            //     style="padding: 10px;
+            //     background-color: #4caf50;
+            //     color: #fff;
+            //     border: none;
+            //     font-size: 19px;"
+            //     readonly>';
+
+            $kirim = '<h1 style="text-align: center;">Rp. '.$ongkir.'</h1>';
+            echo json_encode($kirim);
+        }
     }
 
 

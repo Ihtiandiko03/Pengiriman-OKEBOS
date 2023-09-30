@@ -29,9 +29,18 @@
             </div>
         @enderror
       </div>
+      <div class="mb-3">
+        <label for="provinsi" class="form-label">Provinsi</label>
+        <input type="text" class="form-control @error('provinsi') is-invalid @enderror" id="provinsi" name="provinsi" autofocus value="{{ old('provinsi', $rute->provinsi) }}">
+        @error('provinsi')
+            <div class="invalid-feedback">
+                {{ $message }}
+            </div>
+        @enderror
+      </div>
 
 
-      <button type="submit" class="btn btn-primary">Update Rute</button>
+      <button type="submit" class="btn bg-gradient-primary">Update Rute</button>
     </form>
     </div>
     @endforeach

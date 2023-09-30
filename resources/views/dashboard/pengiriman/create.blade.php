@@ -58,16 +58,6 @@
         @enderror
       </div>
 
-      <div class="mb-3">
-        <label for="jumlah_barang" class="form-label">Jumlah Barang</label>
-        <input type="text" class="form-control @error('jumlah_barang') is-invalid @enderror" id="jumlah_barang" name="jumlah_barang" value="{{ old('jumlah_barang') }}">
-        @error('jumlah_barang')
-            <div class="invalid-feedback">
-                {{ $message }}
-            </div>
-        @enderror
-      </div>
-
 
         <input type="hidden" id="user_id" name="user_id" value="{{ Auth::user()->id; }}">
 
@@ -96,32 +86,31 @@
 
       <div class="mb-3">
         <label for="provinsi_pengirim" class="form-label">Provinsi</label>
-        <input type="text" class="form-control @error('provinsi_pengirim') is-invalid @enderror" id="provinsi_pengirim" name="provinsi_pengirim" value="{{ old('provinsi_pengirim') }}">
-        @error('provinsi_pengirim')
-            <div class="invalid-feedback">
-                {{ $message }}
-            </div>
-        @enderror
+        <select class="form-select" id="provinsi_pengirim" name="provinsi_pengirim" onchange="functionProvinsi()">
+            <option value="">Pilih</option>
+            @foreach ($provinsi as $rute)
+                <option value="{{ $rute->provinsi }}"> {{ $rute->provinsi }}</option>
+            @endforeach
+        </select>
       </div>
 
       <div class="mb-3">
         <label for="kabupatenkota_pengirim" class="form-label">Kabupaten / Kota</label>
-        <input type="text" class="form-control @error('kabupatenkota_pengirim') is-invalid @enderror" id="kabupatenkota_pengirim" name="kabupatenkota_pengirim" value="{{ old('kabupatenkota_pengirim') }}">
-        @error('kabupatenkota_pengirim')
-            <div class="invalid-feedback">
-                {{ $message }}
-            </div>
-        @enderror
+        <div class="form-group" name="provinsi_get" id="provinsi_get">
+            <select class="form-select" id="kabupatenkota_pengirim" name="kabupatenkota_pengirim">
+                <option value="">Pilih Provinsi Dahulu</option>
+            </select>
+        </div>
       </div>
+
 
       <div class="mb-3">
         <label for="kecamatan_pengirim" class="form-label">Kecamatan</label>
-        <input type="text" class="form-control @error('kecamatan_pengirim') is-invalid @enderror" id="kecamatan_pengirim" name="kecamatan_pengirim" value="{{ old('kecamatan_pengirim') }}">
-        @error('kecamatan_pengirim')
-            <div class="invalid-feedback">
-                {{ $message }}
-            </div>
-        @enderror
+        <div class="form-group" name="kabupatenkota_get" id="kabupatenkota_get">
+            <select class="form-select" id="kecamatan_pengirim" name="kecamatan_pengirim">
+                <option value="">Pilih Kabupaten Kota Dahulu</option>
+            </select>
+        </div>
       </div>
 
       <div class="mb-3">
@@ -197,32 +186,30 @@
 
       <div class="mb-3">
         <label for="provinsi_penerima" class="form-label">Provinsi</label>
-        <input type="text" class="form-control @error('provinsi_penerima') is-invalid @enderror" id="provinsi_penerima" name="provinsi_penerima" value="{{ old('provinsi_penerima') }}">
-        @error('provinsi_penerima')
-            <div class="invalid-feedback">
-                {{ $message }}
-            </div>
-        @enderror
+        <select class="form-select" id="provinsi_penerima" name="provinsi_penerima" onchange="functionProvinsiPenerima()">
+            <option value="">Pilih</option>
+            @foreach ($provinsi as $rute)
+                <option value="{{ $rute->provinsi }}"> {{ $rute->provinsi }}</option>
+            @endforeach
+        </select>
       </div>
 
       <div class="mb-3">
         <label for="kabupatenkota_penerima" class="form-label">Kabupaten / Kota</label>
-        <input type="text" class="form-control @error('kabupatenkota_penerima') is-invalid @enderror" id="kabupatenkota_penerima" name="kabupatenkota_penerima" value="{{ old('kabupatenkota_penerima') }}">
-        @error('kabupatenkota_penerima')
-            <div class="invalid-feedback">
-                {{ $message }}
-            </div>
-        @enderror
+        <div class="form-group" name="provinsipenerima_get" id="provinsipenerima_get">
+            <select class="form-select" id="kabupatenkota_penerima" name="kabupatenkota_penerima">
+                <option value="">Pilih Provinsi Dahulu</option>
+            </select>
+        </div>
       </div>
 
       <div class="mb-3">
         <label for="kecamatan_penerima" class="form-label">Kecamatan</label>
-        <input type="text" class="form-control @error('kecamatan_penerima') is-invalid @enderror" id="kecamatan_penerima" name="kecamatan_penerima" value="{{ old('kecamatan_penerima') }}">
-        @error('kecamatan_penerima')
-            <div class="invalid-feedback">
-                {{ $message }}
-            </div>
-        @enderror
+        <div class="form-group" name="kabupatenkotapenerima_get" id="kabupatenkotapenerima_get">
+            <select class="form-select" id="kecamatan_penerima" name="kecamatan_penerima">
+                <option value="">Pilih Kabupaten Kota Dahulu</option>
+            </select>
+        </div>
       </div>
 
       <div class="mb-3">
@@ -279,7 +266,94 @@
       <button type="submit" class="btn bg-gradient-primary">Buat Kiriman</button>
     </form>
     </div>
-
-
-
 @endsection
+
+<script type="text/javascript">
+    function functionProvinsi() {
+        var provinsi = document.getElementById("provinsi_pengirim").value;
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            data: {
+                    'provinsi': provinsi
+                    },
+            url: '/dashboard/logistik/getprovinsi',
+            success: function(val) {
+                // console.log(val);
+                $('#provinsi_get').html(val);
+            }
+        });
+    }
+
+    function functionKabupaten() {
+        var kabupatenkota = document.getElementById("kabupatenkota_pengirim").value;
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            data: {
+                    'kabupatenkota': kabupatenkota
+                    },
+            url: '/dashboard/logistik/getkabupatenkota',
+            success: function(val) {
+                // console.log(val);
+                $('#kabupatenkota_get').html(val);
+            }
+        });
+    }
+
+    function functionProvinsiPenerima() {
+        var provinsi = document.getElementById("provinsi_penerima").value;
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            data: {
+                    'provinsi': provinsi
+                    },
+            url: '/dashboard/logistik/getprovinsipenerima',
+            success: function(val) {
+                // console.log(val);
+                $('#provinsipenerima_get').html(val);
+            }
+        });
+    }
+
+    function functionKabupatenPenerima() {
+        var kabupatenkota = document.getElementById("kabupatenkota_penerima").value;
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            data: {
+                    'kabupatenkota': kabupatenkota
+                    },
+            url: '/dashboard/logistik/getkabupatenkotapenerima',
+            success: function(val) {
+                // console.log(val);
+                $('#kabupatenkotapenerima_get').html(val);
+            }
+        });
+    }
+</script>

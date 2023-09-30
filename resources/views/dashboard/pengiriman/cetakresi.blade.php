@@ -112,7 +112,7 @@
     </div>
 
     <hr>
-    <p><b>Estimasi Ongkos Kirim : </b> Rp. {{ $d->harga }},- (<b>Total Berat :</b> {{ $d->berat_barang }} gr)</p>
+    <p><b>Estimasi Ongkos Kirim : </b> Rp. {{ $d->harga }},- (<b>Total Berat :</b> {{ $d->berat_barang }} Kg)</p>
 
     <table class="invoice-table">
       <thead>

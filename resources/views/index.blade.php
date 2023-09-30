@@ -99,6 +99,7 @@
                         <li class="nav__item"><a href="/" class="nav__link active">Home</a></li>
                         <li class="nav__item"><a href="/login" class="nav__link">Pengiriman</a></li>
                         <li class="nav__item"><a href="/ongkir" class="nav__link">Cek Ongkir</a></li>
+                        <li class="nav__item"><a href="/lacak" class="nav__link">Lacak</a></li>
                         @auth
                         <li>
                             <form action="/logout" method="post">

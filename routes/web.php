@@ -43,9 +43,11 @@ Route::get('/email/resetpassword', [Email::class, 'resetpassword']);
 Route::get('/', function () {
     return view('index');
 });
-Route::get('/ongkir', function () {
-    return view('ongkir');
-});
+
+Route::get('/ongkir', [SettingController::class, 'ongkir']);
+Route::get('/lacak', [SettingController::class, 'lacak']);
+
+
 
 Route::get('/login', [LoginController::class, 'index']);
 Route::post('/login', [LoginController::class, 'authenticate']);
@@ -122,6 +124,14 @@ Route::post('/dashboard/logistik/hapusakun/{id}', [LogistikController::class, 'h
 Route::get('/dashboard/logistik/cetak_resi/{id}', [LogistikController::class, 'cetakresi'])->middleware('auth');
 Route::get('/dashboard/logistik/lihatdetailpengiriman/{id}', [LogistikController::class, 'lihatdetailpengiriman'])->middleware('auth');
 Route::get('/dashboard/logistik/verifikasibarangditerimalogistik/{id}', [LogistikController::class, 'verifikasibarangditerimalogistik'])->middleware('auth');
+Route::post('/dashboard/logistik/getprovinsi', [LogistikController::class, 'getProvinsi']);
+Route::post('/dashboard/logistik/getkabupatenkota', [LogistikController::class, 'getkabupatenkota']);
+Route::post('/dashboard/logistik/getprovinsipenerima', [LogistikController::class, 'getProvinsiPenerima']);
+Route::post('/dashboard/logistik/getkabupatenkotapenerima', [LogistikController::class, 'getkabupatenkotaPenerima']);
+Route::post('/dashboard/logistik/metode', [LogistikController::class, 'metode']);
+
+
+
 
 
 
@@ -137,6 +147,8 @@ Route::post('/dashboard/helpdesk/proseskelolatiket/{id}', [HelpdeskController::c
 Route::get('/dashboard/setting', [SettingController::class, 'index'])->middleware('auth');
 Route::get('/dashboard/setting/edit/{id}', [SettingController::class, 'editsetting'])->middleware('auth');
 Route::put('/dashboard/setting/proseseditsetting/{id}', [SettingController::class, 'proseseditsetting'])->middleware('auth');
+Route::post('/dashboard/setting/lacakpengiriman', [SettingController::class, 'lacakpengiriman']);
+
 
 //Ongkir
 Route::get('/dashboard/ongkir', [SettingController::class, 'indexongkir'])->middleware('auth');

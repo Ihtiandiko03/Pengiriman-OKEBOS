@@ -70,7 +70,6 @@ class Email extends Controller
             'rute_awal' => $get['rute_awal'],
             'rute_tujuan' => $get['rute_tujuan'],
             'nama_barang' => $get['nama_barang'],
-            'jumlah_barang' => $get['jumlah_barang'],
             'nomor_resi' => $get['nomor_resi'],
         ];
 

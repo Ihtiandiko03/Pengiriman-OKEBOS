@@ -75,6 +75,41 @@
                 border-radius: 4px;
                 font-size: 16px;
             }
+
+            .table-container {
+                width: 100%;
+                padding: 20px;
+            }
+
+            /* Table styles */
+            .styled-table {
+                width: 100%;
+                border-collapse: collapse;
+                border: 1px solid #ccc;
+                box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+            }
+
+            .styled-table th,
+            .styled-table td {
+                padding: 12px 15px;
+                text-align: left;
+                border-bottom: 1px solid #ddd;
+            }
+
+            .styled-table th {
+                background-color: #f2f2f2;
+                font-weight: bold;
+            }
+
+            /* Alternate row colors */
+            .styled-table tbody tr:nth-child(even) {
+                background-color: #f9f9f9;
+            }
+
+            /* Hover effect */
+            .styled-table tbody tr:hover {
+                background-color: #e0e0e0;
+            }
          </style>
 
         <title>OkeBos</title>
@@ -120,31 +155,14 @@
 
         <main class="l-main" style=" margin-right: 100px;">
             <div class="kotak" style="margin-left:10%">
-                <h1 style="text-align: center; margin-bottom: 20px;">Cek Ongkos Kirim</h1>
-                <form action="#" method="POST">
-                    <label for="rute_awal">Rute Awal:</label>
-                    <select id="rute_awal" name="rute_awal" onchange="functionCekOngkir()">
-                        <option value="">Pilih</option>
-                        @foreach ($data as $item)
-                            <option value="{{ $item->rute_awal }}">{{ $item->kecamatan_awal}}, {{ $item->kabkota_awal }}</option>
-                        @endforeach
-                    </select>
+                <h1 style="text-align: center; margin-bottom: 20px;">Lacak Pengiriman Barang</h1>
+                <form action="/dashboard/setting/lacakpengiriman" method="POST">
 
-                    <label for="rute_tujuan">Rute Tujuan:</label>
-                    <select id="rute_tujuan" name="rute_tujuan" onchange="functionCekOngkir()">
-                        <option value="">Pilih</option>
-                        @foreach ($data as $item)
-                            <option value="{{ $item->rute_tujuan }}">{{ $item->kecamatan_tujuan}}, {{ $item->kabkota_tujuan }}</option>
-                        @endforeach
-                    </select>
+                    <label for="nomor_resi">Nomor Resi</label>
+                    <input type="text" id="nomor_resi" name="nomor_resi" placeholder="Masukkan nomor resi" required onchange="functionCekPengiriman()">
 
-                    <label for="berat_barang">Berat Barang (Kg):</label>
-                    <input type="number" id="berat_barang" name="berat_barang" required onchange="functionCekOngkir()">
-
-                    <label for="harga" style="text-align: center;">Estimasi Biaya</label>
-                    <div name="hasil" id="hasil">
-                        <h1 style="text-align: center;">Rp. 0</h1>
-                    </div>
+                    <label for="harga" style="text-align: center;">Hasil Pencarian</label>
+                    <div name="hasil" id="hasil"></div>
 
                     {{-- <button type="submit">Submit</button> --}}
                 </form>
@@ -160,16 +178,10 @@
 
         
         <script type="text/javascript">
-            function functionCekOngkir() {
-                var berat_barang = document.getElementById("berat_barang").value;
-                var rute_awal = document.getElementById("rute_awal").value;
-                var rute_tujuan = document.getElementById("rute_tujuan").value;
-
+            function functionCekPengiriman() {
+                var nomor_resi = document.getElementById("nomor_resi").value;
                 var formData = {
-                    metode_pembayaran: 'None',
-                    berat_barang: berat_barang,
-                    rute_awal: rute_awal,
-                    rute_tujuan: rute_tujuan
+                    nomor_resi: nomor_resi
                 };
 
                 $.ajaxSetup({
@@ -182,7 +194,7 @@
                     type: "POST",
                     dataType: "json",
                     data: formData,
-                    url: '/dashboard/logistik/metode',
+                    url: '/dashboard/setting/lacakpengiriman',
                     success: function(val) {
                         // console.log(val);
                         $('#hasil').html(val);

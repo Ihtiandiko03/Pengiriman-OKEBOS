@@ -31,10 +31,13 @@ class ControllerFormPengiriman extends Controller
     public function create()
     {
         $kueri = "SELECT * FROM `rutes` WHERE is_active = 1";
+        $kueri2 = "SELECT `provinsi` FROM `rutes` WHERE is_active = 1 GROUP BY `provinsi`";
         $getData = DB::select($kueri);
+        $getData2 = DB::select($kueri2);
 
         return view('dashboard.pengiriman.create', [
             'rutes' => $getData,
+            'provinsi' => $getData2,
             'link' => 'Pengiriman'
         ]);
     }
@@ -72,28 +75,25 @@ class ControllerFormPengiriman extends Controller
             'rute_awal' => 'required',
             'rute_tujuan' => 'required',
             'nama_barang' => 'required',
-            'jumlah_barang' => 'required',
             'user_id',
             'nomor_resi' => 'required',
             'status' => 'required',
             // 'foto_barang' => 'required|mimes:jpeg,png,jpg|max:1024',
         ]);
 
+        $bulan = date("m");
+
+        $kueri = "SELECT COUNT(id) as total FROM `pengirimen` WHERE MONTH(created_at)= $bulan";
+        $getData = DB::select($kueri);
+
+        $nomor_resi = date("y").date("m").sprintf("%04d", $request['rute_awal']).sprintf("%04d", $request['rute_tujuan']).sprintf("%04d", ($getData[0]->total + 1));
+
+
+        $validatedData['nomor_resi'] = $nomor_resi;
         $validatedData['perusahaan_pengirim'] = $request->perusahaan_pengirim ? $request->perusahaan_pengirim : 'Tidak Ada';
         $validatedData['perusahaan_penerima'] = $request->perusahaan_penerima ? $request->perusahaan_penerima : 'Tidak Ada';
 
-        // var_dump($validatedData['perusahaan_pengirim']);
-        // var_dump($validatedData['perusahaan_penerima']);
-        // die;
-        
-
-        // $validatedData['status'] = $_POST['status'];
         $validatedData['user_id'] = auth()->user()->id;
-
-        // $validatedData['foto_barang'] = $request->file('foto_barang')->store('bukti_barang');
-
-        // var_dump($validatedData);
-        // die;
 
 
         $validatedData2 = [

@@ -1,0 +1,86 @@
+<?php
+
+namespace Tests\Feature;
+use Tests\TestCase;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
+
+class PengirimanHelpdeskTest extends TestCase
+{
+    public function test_halaman_pelacakan_pengiriman()
+    {
+        $response = $this->post('/login', [
+            'email' => 'wihtiandiko@gmail.com',
+            'password' => '12345',
+        ]);
+
+        $response->assertStatus(302);
+        $response->assertRedirect('/');
+
+        $this->get('/dashboard/pengiriman')->assertStatus(200);
+        $this->get('/dashboard/pengiriman/1')->assertStatus(200);
+    }
+
+    public function test_halaman_ongkir()
+    {
+        $this->get('/ongkir')->assertStatus(200);
+    }
+
+    public function test_pemantauan_pengiriman_barang()
+    {
+        $response = $this->post('/login', [
+            'email' => 'wihtiandiko@gmail.com',
+            'password' => '12345',
+        ]);
+
+        $response->assertStatus(302);
+        $response->assertRedirect('/');
+
+        $this->get('dashboard/admin/pengiriman')->assertStatus(200);
+    }
+
+    public function test_buat_tiket_helpdesk()
+    {
+        Storage::fake('local');
+        $response = $this->post('/login', [
+            'email' => 'wihtiandiko@gmail.com',
+            'password' => '12345',
+        ]);
+
+        $response->assertStatus(302);
+        $response->assertRedirect('/');
+
+        $this->get('/dashboard/helpdesk')->assertStatus(200);
+        $this->get('dashboard/helpdesk/buattiket')->assertStatus(200);
+
+        $response2 = $this->post('/dashboard/helpdesk/prosesbuattiket', [
+            'no_tiket' => '45924280804909',
+            'status' => 'Belum Dikerjakan',
+            'keterangan' => 'Testing',
+            'bukti_foto' =>  UploadedFile::fake()->image('terimapaket.png')
+        ]);
+
+        $response2->assertStatus(200);
+    }
+
+    public function test_kelola_tiket_helpdesk()
+    {
+        $response = $this->post('/login', [
+            'email' => 'wihtiandiko@gmail.com',
+            'password' => '12345',
+        ]);
+
+        $response->assertStatus(302);
+        $response->assertRedirect('/');
+
+        $this->get('/dashboard/helpdesk/kelolahelpdesk')->assertStatus(200);
+        $this->get('/dashboard/helpdesk/kelolatiket/TIC-2023-45924280804909')->assertStatus(200);
+
+        $response2 = $this->post('/dashboard/helpdesk/proseskelolatiket/TIC-2023-45924280804909', [
+            'tanggapan' => 'testing berhasil'
+        ]);
+
+        $response2->assertStatus(200);
+    }
+
+}

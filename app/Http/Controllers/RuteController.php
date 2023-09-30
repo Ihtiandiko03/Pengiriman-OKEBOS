@@ -55,7 +55,8 @@ class RuteController extends Controller
 
         Rute::create([
             'kecamatan' => $request['kecamatan'],
-            'kabupatenkota' => $request['kabupatenkota']
+            'kabupatenkota' => $request['kabupatenkota'],
+            'provinsi' => $request['provinsi']
         ]);
 
         echo ("<script LANGUAGE='JavaScript'>window.alert('Data Berhasil Disimpan');window.location.href='/dashboard/rute';</script>");

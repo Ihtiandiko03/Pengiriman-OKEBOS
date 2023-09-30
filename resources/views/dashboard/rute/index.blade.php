@@ -112,6 +112,7 @@
                       <th class="text-center text-uppercase text-sm font-weight-bolder">No</th>
                       <th class="text-center text-uppercase text-sm font-weight-bolder">Desa/Kecamatan</th>
                       <th class="text-center text-uppercase text-sm font-weight-bolder">Kabupaten/Kota</th>
+                      <th class="text-center text-uppercase text-sm font-weight-bolder">Provinsi</th>
                       <th class="text-center text-uppercase text-sm font-weight-bolder">Status</th>
                       <th class="text-center text-uppercase text-sm font-weight-bolder">Aksi</th>
                     </tr>
@@ -128,6 +129,9 @@
                       </td>
                       <td class="align-middle text-center text-sm">
                         <span class="text-secondary text-sm font-weight-bold">{{ $item->kabupatenkota }}</span>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <span class="text-secondary text-sm font-weight-bold">{{ $item->provinsi }}</span>
                       </td>
                       <td class="align-middle text-center text-sm">
                         @if($item->is_active == 1)

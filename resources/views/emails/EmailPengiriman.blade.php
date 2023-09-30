@@ -13,7 +13,6 @@
     <p>Rute Awal : {{ $details['rute_awal'] }}</p>
     <p>Rute Tujuan : {{ $details['rute_tujuan'] }}</p>
     <p>Nama Barang : {{ $details['nama_barang'] }}</p>
-    <p>Jumlah Barang : {{ $details['jumlah_barang'] }}</p>
 
     <h3>Pengirim</h3>
     <p>Nama Pengirim : {{ $details['nama_pengirim'] }}</p>
