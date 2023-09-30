@@ -133,9 +133,10 @@ class SettingController extends Controller
 
     public function ongkir()
     {
-        $kueri = "SELECT a.*,  b.`kecamatan` as kecamatan_awal,  b.`kabupatenkota` as kabkota_awal
-                    FROM `ongkir` a 
-                    JOIN `rutes` b ON a.`rute_awal` = b.`id`";
+        $kueri = "SELECT ongkir.rute_awal,  rutes.`kecamatan` as kecamatan_awal,  rutes.`kabupatenkota` as kabkota_awal
+                    FROM `ongkir`  
+                    JOIN `rutes`  ON ongkir.`rute_awal` = rutes.`id`
+                    GROUP BY ongkir.rute_awal";
         $getData = DB::select($kueri);
 
         return view('ongkir', [
