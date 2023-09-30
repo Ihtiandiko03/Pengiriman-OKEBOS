@@ -134,7 +134,7 @@
                     <select id="rute_tujuan" name="rute_tujuan" onchange="functionCekOngkir()">
                         <option value="">Pilih</option>
                         @foreach ($data as $item)
-                            <option value="{{ $item->rute_tujuan }}">{{ $item->kecamatan_tujuan}}, {{ $item->kabkota_tujuan }}</option>
+                            <option value="{{ $item->rute_awal }}">{{ $item->kecamatan_awal}}, {{ $item->kabkota_awal }}</option>
                         @endforeach
                     </select>
 
