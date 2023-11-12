@@ -43,6 +43,10 @@ Route::get('selectKecamatan/{id}', [IndonesiaController::class, 'kecamatan']);
 Route::get('selectKelurahan/{id}/{kabkota}', [IndonesiaController::class, 'kelurahan']);
 Route::post('getKodePos', [IndonesiaController::class, 'kodepos']);
 Route::post('getKodePosPenerima', [IndonesiaController::class, 'kodepospenerima']);
+Route::get('selectProvinsiAll', [IndonesiaController::class, 'provinsiAll']);
+Route::get('selectkabupatenkotaAll/{id}', [IndonesiaController::class, 'kabupatenkotaAll']);
+Route::get('selectKecamatanAll/{id}', [IndonesiaController::class, 'kecamatanAll']);
+
 
 
 

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Rute;
+use App\Models\Provinces;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -52,12 +54,23 @@ class RuteController extends Controller
      */
     public function store(Request $request)
     {
+        $getData = Provinces::where('province_code', $_POST['provinsi'])->get();
 
         Rute::create([
             'kecamatan' => $request['kecamatan'],
             'kabupatenkota' => $request['kabupatenkota'],
-            'provinsi' => $request['provinsi']
+            'provinsi' => $getData[0]->province_name
         ]);
+
+        DB::table('db_province_data')
+            ->where('province_code', $request['provinsi'])
+            ->update(['is_active' => 1]);
+        
+        DB::table('db_postal_code_data')
+            ->where('province_code', $request['provinsi'])
+            ->where('city', $request['kabupatenkota'])
+            ->where('sub_district', $request['kecamatan'])
+            ->update(['is_active' => 1]);
 
         echo ("<script LANGUAGE='JavaScript'>window.alert('Data Berhasil Disimpan');window.location.href='/dashboard/rute';</script>");
         // return redirect('/dashboard/rute');
@@ -125,7 +138,17 @@ class RuteController extends Controller
         // var_dump($_POST['is_active']);
         // die;
 
+        $getData = Rute::where('id', $id)->get();
+        $getData2 = Provinces::where('province_name', $getData[0]->provinsi)->get();
+
         Rute::where('id', '=', $id)->update(['is_active' => $_POST['is_active']]);
+
+        DB::table('db_postal_code_data')
+            ->where('province_code', $getData2[0]->province_code)
+            ->where('city', $getData[0]->kabupatenkota)
+            ->where('sub_district', $getData[0]->kecamatan)
+            ->update(['is_active' => $_POST['is_active']]);
+        
 
         echo ("<script LANGUAGE='JavaScript'>window.alert('Data Berhasil Disimpan');window.location.href='/dashboard/rute';</script>");
         // return redirect('/dashboard/rute/');

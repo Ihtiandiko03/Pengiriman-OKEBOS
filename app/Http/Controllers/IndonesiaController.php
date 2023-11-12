@@ -11,11 +11,30 @@ use Illuminate\Http\Request;
 
 class IndonesiaController extends Controller
 {
+    public function provinsiAll(){
+        $data = Provinces::where('province_name', 'LIKE', '%'.request('q').'%')->paginate(10);
+
+        return response()->json($data);
+    }
+
+    public function kabupatenkotaAll($id){
+        $data = PostalCode::where('province_code', $id)->where('city', 'LIKE', '%' . request('q') . '%')->groupByRaw('city')->paginate(10);
+
+        return response()->json($data);
+    }
+
+    public function kecamatanAll($id){
+        $data = PostalCode::where('city', $id)->where('sub_district', 'LIKE', '%' . request('q') . '%')->groupByRaw('sub_district')->paginate(10);
+
+        return response()->json($data);
+    }
+    
     public function provinsi(){
         $data = Provinces::where('province_name', 'LIKE', '%'.request('q').'%')->where('is_active', 1)->paginate(10);
 
         return response()->json($data);
     }
+
 
     public function kabkota($id){
         $data = PostalCode::where('province_code', $id)->where('city', 'LIKE', '%' . request('q') . '%')->where('is_active', 1)->groupByRaw('city')->paginate(10);

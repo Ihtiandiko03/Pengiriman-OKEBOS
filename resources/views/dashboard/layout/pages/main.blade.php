@@ -408,6 +408,65 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
 <script>
    $(document).ready(function(){
+        $('#selectProvinsiAll').select2({
+            placeholder: 'Pilih Provinsi',
+            ajax: {
+                url: "{{ url('selectProvinsiAll') }}",
+                processResults: function({data}){
+                  return {
+                    results: $.map(data, function(item){
+                      return {
+                        id: item.province_code,
+                        text: item.province_name
+                      }
+                    })
+                  }
+                }
+            }
+        });
+
+        $("#selectProvinsiAll").change(function(){
+            let id = $('#selectProvinsiAll').val();
+
+            $('#selectkabupatenkotaAll').select2({
+                placeholder: 'Pilih Kabupaten/Kota',
+                ajax: {
+                    url: "{{ url('selectkabupatenkotaAll') }}/"+ id,
+                    processResults: function({data}){
+                      return {
+                        results: $.map(data, function(item){
+                          return {
+                            id: item.city,
+                            text: item.city
+                          }
+                        })
+                      }
+                    }
+                }
+            });
+        });
+
+        $("#selectkabupatenkotaAll").change(function(){
+            let id = $('#selectkabupatenkotaAll').val();
+
+            $('#selectKecamatanAll').select2({
+                placeholder: 'Pilih Kecamatan',
+                ajax: {
+                    url: "{{ url('selectKecamatanAll') }}/"+ id,
+                    processResults: function({data}){
+                      return {
+                        results: $.map(data, function(item){
+                          return {
+                            id: item.sub_district,
+                            text: item.sub_district
+                          }
+                        })
+                      }
+                    }
+                }
+            });
+        });
+
         $('#selectProvinsi').select2({
             placeholder: 'Pilih Provinsi',
             ajax: {
