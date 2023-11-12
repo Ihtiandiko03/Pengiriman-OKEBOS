@@ -397,7 +397,8 @@ class LogistikController extends Controller
 
         if ($request->hasFile('surat_jalan')) {
             $file = $request->file('surat_jalan');
-            $filename = $file->getClientOriginalName();
+            // $filename = $file->getClientOriginalName();
+            $filename = $file->hashName();
 
             $data['surat_jalan'] = $filename;
 
@@ -567,7 +568,7 @@ class LogistikController extends Controller
         $ongkir = $ongkir - $potongan;
 
         if($metode_pembayaran == 'Tunai' || $metode_pembayaran == 'Transfer'){
-            $kirim = '<input type="text" class="form-control" id="harga" name="harga" value="'.$ongkir.'" readonly>';
+            $kirim = '<input type="text" class="form-control" id="harga" name="harga" value="'. number_format($ongkir ,2,",",".").'" readonly>';
             echo json_encode($kirim);
         }
 
@@ -580,7 +581,7 @@ class LogistikController extends Controller
                 $ongkir = $ongkir + $cod;
             }
 
-            $kirim = '<input type="text" class="form-control" id="harga" name="harga" value="' . $ongkir . '" readonly>';
+            $kirim = '<input type="text" class="form-control" id="harga" name="harga" value="' . number_format($ongkir, 2, ",", ".") . '" readonly>';
             echo json_encode($kirim);
         }
 
@@ -593,7 +594,7 @@ class LogistikController extends Controller
             //     font-size: 19px;"
             //     readonly>';
 
-            $kirim = '<h1 style="text-align: center;">Rp. '.$ongkir.'</h1>';
+            $kirim = '<h1 style="text-align: center;">Rp. '. number_format($ongkir, 2, ",", ".").'</h1>';
             echo json_encode($kirim);
         }
     }

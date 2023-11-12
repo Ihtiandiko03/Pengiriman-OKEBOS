@@ -20,7 +20,7 @@
                     <p class="text-sm mb-0 text-capitalize font-weight-bold">Total Pengiriman</p>
                     <h5 class="font-weight-bolder mb-0">
                       {{ $totalPengiriman }}
-                      <span class="text-success text-sm font-weight-bolder">+{{ $totalPengirimanBulanIni }} % bulan Ini</span>
+                      <span class="text-success text-sm font-weight-bolder">+{{ round($totalPengirimanBulanIni, 2) }} % bulan Ini</span>
                     </h5>
                   </div>
                 </div>
@@ -42,7 +42,7 @@
                     <p class="text-sm mb-0 text-capitalize font-weight-bold">Total Pengguna</p>
                     <h5 class="font-weight-bolder mb-0">
                       {{ $totalPengguna }}
-                      <span class="text-success text-sm font-weight-bolder">+{{ $totalPenggunaBulanIni }}% bulan ini</span>
+                      <span class="text-success text-sm font-weight-bolder">+{{ round($totalPenggunaBulanIni, 2) }}% bulan ini</span>
                     </h5>
                   </div>
                 </div>
@@ -86,7 +86,7 @@
                     <p class="text-sm mb-0 text-capitalize font-weight-bold">Total Helpdesk</p>
                     <h5 class="font-weight-bolder mb-0">
                       {{ $totalHelpdesk }}
-                      <span class="text-success text-sm font-weight-bolder">+{{ $totalHelpdeskBulanIni }}% bulan ini</span>
+                      <span class="text-success text-sm font-weight-bolder">+{{ round($totalHelpdeskBulanIni, 2) }}% bulan ini</span>
                     </h5>
                   </div>
                 </div>
@@ -268,7 +268,7 @@
               <h6>Statistik Pengiriman</h6>
               <p class="text-sm">
                 <i class="fa fa-arrow-up text-success"></i>
-                <span class="font-weight-bold">{{ $totalPengirimanBulanIni }}% </span> di Bulan {{ $bulan }}
+                <span class="font-weight-bold">{{ round($totalPengirimanBulanIni, 3) }}% </span> di Bulan {{ $bulan }}
               </p>
             </div>
             <div class="card-body p-3">

@@ -1,6 +1,8 @@
 <?php
 
 use App\Models\User;
+use App\Models\Mockdata;
+use App\Http\Controllers\Email;
 use App\Http\Middleware\Logistik;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
@@ -9,14 +11,15 @@ use App\Http\Controllers\AgenController;
 use App\Http\Controllers\RuteController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\KurirController;
-use App\Http\Controllers\Email;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\HelpdeskController;
 use App\Http\Controllers\LogistikController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\IndonesiaController;
 use App\Http\Controllers\DashboardUserController;
 use App\Http\Controllers\ControllerFormPengiriman;
-use App\Http\Controllers\SettingController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -34,6 +37,19 @@ Route::get('/foo', function () {
 });
 
 
+Route::get('selectProvinsi', [IndonesiaController::class, 'provinsi'])->name('provinsi.index');
+Route::get('selectKabKota/{id}', [IndonesiaController::class, 'kabkota']);
+Route::get('selectKecamatan/{id}', [IndonesiaController::class, 'kecamatan']);
+Route::get('selectKelurahan/{id}/{kabkota}', [IndonesiaController::class, 'kelurahan']);
+Route::post('getKodePos', [IndonesiaController::class, 'kodepos']);
+Route::post('getKodePosPenerima', [IndonesiaController::class, 'kodepospenerima']);
+
+
+
+
+
+
+
 Route::get('/email/emailpendaftaran', [Email::class, 'emailpendaftaran']);
 Route::get('/email/emailpengirimanbarang', [Email::class, 'emailpengirimanbarang']);
 Route::get('/email/emailpenerimaanbarang', [Email::class, 'emailpenerimaanbarang']);
@@ -49,7 +65,7 @@ Route::get('/lacak', [SettingController::class, 'lacak']);
 
 
 
-Route::get('/login', [LoginController::class, 'index']);
+Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::post('/login', [LoginController::class, 'authenticate']);
 Route::post('/logout', [LoginController::class, 'logout']);
 Route::get('/login/lupapassword', [LoginController::class, 'lupapassword']);

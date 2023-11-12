@@ -54,7 +54,7 @@ class Email extends Controller
             'alamat_pengirim' => $get['alamat_pengirim'],
             'kodepos_pengirim' => $get['kodepos_pengirim'],
             'nomorhp_pengirim' => $get['nomorhp_pengirim'],
-            'nomorwa_pengirim' => $get['nomorwa_pengirim'],
+            
 
             'nama_penerima' => $get['nama_penerima'],
             'provinsi_penerima' => $get['provinsi_penerima'],
@@ -64,7 +64,7 @@ class Email extends Controller
             'alamat_penerima' => $get['alamat_penerima'],
             'kodepos_penerima' => $get['kodepos_penerima'],
             'nomorhp_penerima' => $get['nomorhp_penerima'],
-            'nomorwa_penerima' => $get['nomorwa_penerima'],
+            
 
             'jenis_pengiriman' => $get['jenis_pengiriman'],
             'rute_awal' => $get['rute_awal'],

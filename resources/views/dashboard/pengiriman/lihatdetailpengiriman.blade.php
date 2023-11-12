@@ -21,7 +21,7 @@
         </tr>
         <tr>
             <th scope="col">Harga</th>
-            <td>Rp.{{ $pengirimanku->harga }},00</td>
+            <td>Rp.{{ number_format($pengirimanku->harga ,2,",",".") }}</td>
         </tr>
         <tr>
             <th scope="col">Berat Barang</th>
@@ -76,10 +76,10 @@
             <th scope="col">Nomor HP</th>
             <td>{{ $pengirimanku->nomorhp_pengirim }}</td>
         </tr>
-        <tr>
+        {{-- <tr>
             <th scope="col">Nomor WA</th>
             <td>{{ $pengirimanku->nomorwa_pengirim }}</td>
-        </tr>
+        </tr> --}}
         
           </tbody>
         </table>
@@ -125,10 +125,10 @@
             <th scope="col">Nomor HP</th>
             <td>{{ $pengirimanku->nomorhp_penerima }}</td>
         </tr>
-        <tr>
+        {{-- <tr>
             <th scope="col">Nomor WA</th>
             <td>{{ $pengirimanku->nomorwa_penerima }}</td>
-        </tr>
+        </tr> --}}
         <tr>
             <th scope="col">Foto Barang</th>
             <td><img src="{{ asset('storage/bukti_barang/'.$pengirimanku->foto_barang) }}" style="width: 400px; height:300px"></td>

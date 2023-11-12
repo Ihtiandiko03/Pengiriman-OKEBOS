@@ -35,9 +35,14 @@ class ControllerFormPengiriman extends Controller
         $getData = DB::select($kueri);
         $getData2 = DB::select($kueri2);
 
+        $kueri3 = "SELECT * FROM `db_province_data`";
+        $getData3 = DB::select($kueri3);
+
+
+
         return view('dashboard.pengiriman.create', [
             'rutes' => $getData,
-            'provinsi' => $getData2,
+            'provinsi' => $getData3,
             'link' => 'Pengiriman'
         ]);
     }
@@ -50,26 +55,27 @@ class ControllerFormPengiriman extends Controller
      */
     public function store(Request $request)
     {
+        // var_dump($_POST);
+        // die; 
+
         $validatedData = $request->validate([
             'nama_pengirim' => 'required|min:3|max:255',
-            'provinsi_pengirim' => 'required|min:3|max:255',
+            'provinsi_pengirim' => 'required',
             'kabupatenkota_pengirim' => 'required|min:3|max:255',
             'kecamatan_pengirim' => 'required|min:3|max:255',
             'kelurahan_pengirim' => 'required|min:3|max:255',
             'alamat_pengirim' => 'required',
             'kodepos_pengirim' => 'required',
             'nomorhp_pengirim' => 'required',
-            'nomorwa_pengirim' => 'required',
 
             'nama_penerima' => 'required|min:3|max:255',
-            'provinsi_penerima' => 'required|min:3|max:255',
+            'provinsi_penerima' => 'required',
             'kabupatenkota_penerima' => 'required|min:3|max:255',
             'kecamatan_penerima' => 'required|min:3|max:255',
             'kelurahan_penerima' => 'required|min:3|max:255',
             'alamat_penerima' => 'required',
             'kodepos_penerima' => 'required',
             'nomorhp_penerima' => 'required',
-            'nomorwa_penerima' => 'required',
 
             'jenis_pengiriman' => 'required',
             'rute_awal' => 'required',
@@ -88,6 +94,20 @@ class ControllerFormPengiriman extends Controller
 
         $nomor_resi = date("y").date("m").sprintf("%04d", $request['rute_awal']).sprintf("%04d", $request['rute_tujuan']).sprintf("%04d", ($getData[0]->total + 1));
 
+        $getProvPengirim = $validatedData['provinsi_pengirim'];
+        $kueri = "SELECT province_name FROM db_province_data WHERE province_code = $getProvPengirim";
+        $getData = DB::select($kueri);
+
+        $getProvPenerima = $validatedData['provinsi_penerima'];
+        $kueri2 = "SELECT province_name FROM db_province_data WHERE province_code = $getProvPenerima";
+        $getData2 = DB::select($kueri2);
+
+        $validatedData['provinsi_pengirim'] = $getData[0]->province_name;
+        $validatedData['provinsi_penerima'] = $getData2[0]->province_name;
+
+
+        // var_dump($validatedData);
+        // die;
 
         $validatedData['nomor_resi'] = $nomor_resi;
         $validatedData['perusahaan_pengirim'] = $request->perusahaan_pengirim ? $request->perusahaan_pengirim : 'Tidak Ada';
@@ -138,6 +158,7 @@ class ControllerFormPengiriman extends Controller
         return view('dashboard.pengiriman.show', [
             'pengiriman' => $usr,
             'lokasi' => $usr2,
+            'surat_jalan' => $usr3[0],
             'penerima_barang' => $penerima_barang,
             'bukti_terima' => $bukti_terima,
             'link' => ''

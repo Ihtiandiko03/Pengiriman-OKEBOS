@@ -8,7 +8,7 @@
         @csrf
         <div class="mb-3">
           <label for="jenis_pengiriman" class="form-label">Jenis Pengiriman</label>
-          <select class="form-select" name="jenis_pengiriman">
+          <select class="form-select" name="jenis_pengiriman" autofocus>
               <option value="">Pilih</option>
               <option value="Dalam Kota">Dalam Kota</option>
               <option value="Luar Kota">Luar Kota</option>
@@ -86,41 +86,37 @@
 
       <div class="mb-3">
         <label for="provinsi_pengirim" class="form-label">Provinsi</label>
-        <select class="form-select" id="provinsi_pengirim" name="provinsi_pengirim" onchange="functionProvinsi()">
-            <option value="">Pilih</option>
-            @foreach ($provinsi as $rute)
-                <option value="{{ $rute->provinsi }}"> {{ $rute->provinsi }}</option>
-            @endforeach
+        <select id="selectProvinsi" for="provinsi_pengirim" name="provinsi_pengirim" class="form-select">
         </select>
       </div>
 
       <div class="mb-3">
         <label for="kabupatenkota_pengirim" class="form-label">Kabupaten / Kota</label>
-        <div class="form-group" name="provinsi_get" id="provinsi_get">
-            <select class="form-select" id="kabupatenkota_pengirim" name="kabupatenkota_pengirim">
+        <select class="form-select" id="selectKabKota" for="kabupatenkota_pengirim" name="kabupatenkota_pengirim">
                 <option value="">Pilih Provinsi Dahulu</option>
-            </select>
-        </div>
+        </select>
       </div>
-
 
       <div class="mb-3">
         <label for="kecamatan_pengirim" class="form-label">Kecamatan</label>
-        <div class="form-group" name="kabupatenkota_get" id="kabupatenkota_get">
-            <select class="form-select" id="kecamatan_pengirim" name="kecamatan_pengirim">
-                <option value="">Pilih Kabupaten Kota Dahulu</option>
-            </select>
-        </div>
+        <select class="form-select" id="selectKecamatan" for="kecamatan_pengirim" name="kecamatan_pengirim">
+            <option value="">Pilih Kabupaten Kota Dahulu</option>
+        </select>
       </div>
 
       <div class="mb-3">
         <label for="kelurahan_pengirim" class="form-label">Desa / Kelurahan</label>
-        <input type="text" class="form-control @error('kelurahan_pengirim') is-invalid @enderror" id="kelurahan_pengirim" name="kelurahan_pengirim" value="{{ old('kelurahan_pengirim') }}">
-        @error('kelurahan_pengirim')
-            <div class="invalid-feedback">
-                {{ $message }}
-            </div>
-        @enderror
+        <select class="form-select" id="selectKelurahan" for="kelurahan_pengirim" name="kelurahan_pengirim">
+            <option value="">Pilih Kecamatan Dahulu</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label for="kodepos_pengirim" class="form-label">Kode Pos Pengirim</label>
+        <div class="form-group" name="kodepospengirim_get" id="kodepospengirim_get">
+            <input type="text" class="form-control" id="kodepos_pengirim" name="kodepos_pengirim" readonly>
+        </div>
+        {{-- <input type="text" class="form-control @error('kodepos_pengirim') is-invalid @enderror" id="kodepos_pengirim" name="kodepos_pengirim" value="{{ old('kodepos_pengirim') }}" readonly> --}}
       </div>
 
       <div class="mb-3">
@@ -133,19 +129,11 @@
         @enderror
       </div>
 
-      <div class="mb-3">
-        <label for="kodepos_pengirim" class="form-label">Kode Pos Pengirim</label>
-        <input type="text" class="form-control @error('kodepos_pengirim') is-invalid @enderror" id="kodepos_pengirim" name="kodepos_pengirim" value="{{ old('kodepos_pengirim') }}">
-        @error('kodepos_pengirim')
-            <div class="invalid-feedback">
-                {{ $message }}
-            </div>
-        @enderror
-      </div>
+      
 
       <div class="mb-3">
         <label for="nomorhp_pengirim" class="form-label">Nomor HP</label>
-        <input type="text" class="form-control @error('nomorhp_pengirim') is-invalid @enderror" id="nomorhp_pengirim" name="nomorhp_pengirim" value="{{ old('nomorhp_pengirim') }}">
+        <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" class="form-control @error('nomorhp_pengirim') is-invalid @enderror" id="nomorhp_pengirim" name="nomorhp_pengirim" value="{{ old('nomorhp_pengirim') }}">
         @error('nomorhp_pengirim')
             <div class="invalid-feedback">
                 {{ $message }}
@@ -153,15 +141,15 @@
         @enderror
       </div>
 
-      <div class="mb-3">
+      {{-- <div class="mb-3">
         <label for="nomorwa_pengirim" class="form-label">Nomor WA</label>
-        <input type="text" class="form-control @error('nomorwa_pengirim') is-invalid @enderror" id="nomorwa_pengirim" name="nomorwa_pengirim" value="{{ old('nomorwa_pengirim') }}">
+        <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" class="form-control @error('nomorwa_pengirim') is-invalid @enderror" id="nomorwa_pengirim" name="nomorwa_pengirim" value="{{ old('nomorwa_pengirim') }}">
         @error('nomorwa_pengirim')
             <div class="invalid-feedback">
                 {{ $message }}
             </div>
         @enderror
-      </div>
+      </div> --}}
 
       <h4>Penerima</h4>
 
@@ -186,40 +174,64 @@
 
       <div class="mb-3">
         <label for="provinsi_penerima" class="form-label">Provinsi</label>
-        <select class="form-select" id="provinsi_penerima" name="provinsi_penerima" onchange="functionProvinsiPenerima()">
+        <select id="selectProvinsiPenerima" for="provinsi_penerima" name="provinsi_penerima" class="form-select">
+        </select>
+        {{-- <select class="form-select" id="provinsi_penerima" name="provinsi_penerima" onchange="functionProvinsiPenerima()">
             <option value="">Pilih</option>
             @foreach ($provinsi as $rute)
-                <option value="{{ $rute->provinsi }}"> {{ $rute->provinsi }}</option>
+                <option value="{{ $rute->province_code }}"> {{ $rute->province_name }}</option>
             @endforeach
-        </select>
+        </select> --}}
       </div>
 
       <div class="mb-3">
         <label for="kabupatenkota_penerima" class="form-label">Kabupaten / Kota</label>
-        <div class="form-group" name="provinsipenerima_get" id="provinsipenerima_get">
+        <select class="form-select" id="selectKabKotaPenerima" for="kabupatenkota_penerima" name="kabupatenkota_penerima">
+                <option value="">Pilih Provinsi Dahulu</option>
+        </select>
+        {{-- <div class="form-group" name="provinsipenerima_get" id="provinsipenerima_get">
             <select class="form-select" id="kabupatenkota_penerima" name="kabupatenkota_penerima">
                 <option value="">Pilih Provinsi Dahulu</option>
             </select>
-        </div>
+        </div> --}}
       </div>
 
       <div class="mb-3">
         <label for="kecamatan_penerima" class="form-label">Kecamatan</label>
-        <div class="form-group" name="kabupatenkotapenerima_get" id="kabupatenkotapenerima_get">
+        <select class="form-select" id="selectKecamatanPenerima" for="kecamatan_penerima" name="kecamatan_penerima">
+            <option value="">Pilih Kabupaten/Kota Penerima Dahulu</option>
+        </select>
+        {{-- <div class="form-group" name="kabupatenkotapenerima_get" id="kabupatenkotapenerima_get">
             <select class="form-select" id="kecamatan_penerima" name="kecamatan_penerima">
                 <option value="">Pilih Kabupaten Kota Dahulu</option>
             </select>
-        </div>
+        </div> --}}
       </div>
 
       <div class="mb-3">
         <label for="kelurahan_penerima" class="form-label">Desa / Kelurahan</label>
-        <input type="text" class="form-control @error('kelurahan_penerima') is-invalid @enderror" id="kelurahan_penerima" name="kelurahan_penerima" value="{{ old('kelurahan_penerima') }}">
+        <select class="form-select" id="selectKelurahanPenerima" for="kelurahan_penerima" name="kelurahan_penerima">
+            <option value="">Pilih Kecamatan Penerima Dahulu</option>
+        </select>
+        {{-- <input type="text" class="form-control @error('kelurahan_penerima') is-invalid @enderror" id="kelurahan_penerima" name="kelurahan_penerima" value="{{ old('kelurahan_penerima') }}">
         @error('kelurahan_penerima')
             <div class="invalid-feedback">
                 {{ $message }}
             </div>
-        @enderror
+        @enderror --}}
+      </div>
+
+      <div class="mb-3">
+        <label for="kodepos_penerima" class="form-label">Kode Pos Penerima</label>
+        <div class="form-group" name="kodepospenerima_get" id="kodepospenerima_get">
+            <input type="text" class="form-control" id="kodepos_penerima" name="kodepos_penerima" readonly>
+        </div>
+        {{-- <input type="text" class="form-control @error('kodepos_penerima') is-invalid @enderror" id="kodepos_penerima" name="kodepos_penerima" value="{{ old('kodepos_penerima') }}">
+        @error('kodepos_penerima')
+            <div class="invalid-feedback">
+                {{ $message }}
+            </div>
+        @enderror --}}
       </div>
 
       <div class="mb-3">
@@ -233,18 +245,8 @@
       </div>
 
       <div class="mb-3">
-        <label for="kodepos_penerima" class="form-label">Kode Pos Penerima</label>
-        <input type="text" class="form-control @error('kodepos_penerima') is-invalid @enderror" id="kodepos_penerima" name="kodepos_penerima" value="{{ old('kodepos_penerima') }}">
-        @error('kodepos_penerima')
-            <div class="invalid-feedback">
-                {{ $message }}
-            </div>
-        @enderror
-      </div>
-
-      <div class="mb-3">
         <label for="nomorhp_penerima" class="form-label">Nomor HP</label>
-        <input type="text" class="form-control @error('nomorhp_penerima') is-invalid @enderror" id="nomorhp_penerima" name="nomorhp_penerima" value="{{ old('nomorhp_penerima') }}">
+        <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" class="form-control @error('nomorhp_penerima') is-invalid @enderror" id="nomorhp_penerima" name="nomorhp_penerima" value="{{ old('nomorhp_penerima') }}">
         @error('nomorhp_penerima')
             <div class="invalid-feedback">
                 {{ $message }}
@@ -252,15 +254,15 @@
         @enderror
       </div>
 
-      <div class="mb-3">
-        <label for="nomorwa_penerima" class="form-label">Nomor WA</label>
-        <input type="text" class="form-control @error('nomorwa_penerima') is-invalid @enderror" id="nomorwa_penerima" name="nomorwa_penerima" value="{{ old('nomorwa_penerima') }}">
+      {{-- <div class="mb-3">
+        <label for="nomorwa_penerima"  class="form-label">Nomor WA</label>
+        <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" class="form-control @error('nomorwa_penerima') is-invalid @enderror" id="nomorwa_penerima" name="nomorwa_penerima" value="{{ old('nomorwa_penerima') }}">
         @error('nomorwa_penerima')
             <div class="invalid-feedback">
                 {{ $message }}
             </div>
         @enderror
-      </div>
+      </div> --}}
 
 
       <button type="submit" class="btn bg-gradient-primary">Buat Kiriman</button>
@@ -268,7 +270,10 @@
     </div>
 @endsection
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
 <script type="text/javascript">
+    
+
     function functionProvinsi() {
         var provinsi = document.getElementById("provinsi_pengirim").value;
 

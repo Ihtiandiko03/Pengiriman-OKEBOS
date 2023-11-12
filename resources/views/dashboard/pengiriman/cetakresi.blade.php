@@ -112,7 +112,7 @@
     </div>
 
     <hr>
-    <p><b>Estimasi Ongkos Kirim : </b> Rp. {{ $d->harga }},- (<b>Total Berat :</b> {{ $d->berat_barang }} Kg)</p>
+    <p><b>Estimasi Ongkos Kirim : </b> Rp.{{ number_format($d->harga ,2,",",".") }},- (<b>Total Berat :</b> {{ $d->berat_barang }} Kg)</p>
 
     <table class="invoice-table">
       <thead>
@@ -126,7 +126,7 @@
         <tr>
           <td>{{ $d->nama_barang }}</td>
           <td>{{ $d->jumlah_barang }}</td>
-          <td>{{ $d->harga }}</td>
+          <td>Rp.{{ number_format($d->harga ,2,",",".") }}</td>
         </tr>
         
         <!-- Add more rows for additional products if needed -->

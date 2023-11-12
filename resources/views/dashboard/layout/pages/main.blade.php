@@ -39,6 +39,7 @@
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap5.min.css">
   {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css"> --}}
   <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css">
   <meta name="csrf-token" content="{{ csrf_token() }}">
 
 
@@ -404,8 +405,231 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
 <script>
    $(document).ready(function(){
+        $('#selectProvinsi').select2({
+            placeholder: 'Pilih Provinsi',
+            ajax: {
+                url: "{{ route('provinsi.index') }}",
+                processResults: function({data}){
+                  return {
+                    results: $.map(data, function(item){
+                      return {
+                        id: item.province_code,
+                        text: item.province_name
+                      }
+                    })
+                  }
+                }
+            }
+        });
+
+        $("#selectProvinsi").change(function(){
+            let id = $('#selectProvinsi').val();
+
+            $('#selectKabKota').select2({
+                placeholder: 'Pilih Kabupaten/Kota',
+                ajax: {
+                    url: "{{ url('selectKabKota') }}/"+ id,
+                    processResults: function({data}){
+                      return {
+                        results: $.map(data, function(item){
+                          return {
+                            id: item.city,
+                            text: item.city
+                          }
+                        })
+                      }
+                    }
+                }
+            });
+        });
+
+        $("#selectKabKota").change(function(){
+            let id = $('#selectKabKota').val();
+
+            $('#selectKecamatan').select2({
+                placeholder: 'Pilih Kecamatan',
+                ajax: {
+                    url: "{{ url('selectKecamatan') }}/"+ id,
+                    processResults: function({data}){
+                      return {
+                        results: $.map(data, function(item){
+                          return {
+                            id: item.sub_district,
+                            text: item.sub_district
+                          }
+                        })
+                      }
+                    }
+                }
+            });
+        });
+
+        $("#selectKecamatan").change(function(){
+            let id = $('#selectKecamatan').val();
+            let kabkota = document.getElementById('selectKabKota').value;
+
+            $('#selectKelurahan').select2({
+                placeholder: 'Pilih Kelurahan',
+                ajax: {
+                    url: "{{ url('selectKelurahan') }}/"+ id +"/"+ kabkota,
+                    processResults: function({data}){
+                      return {
+                        results: $.map(data, function(item){
+                          return {
+                            id: item.urban,
+                            text: item.urban
+                          }
+                        })
+                      }
+                    }
+                }
+            });
+        });
+
+        $("#selectKelurahan").change(function(){
+            let kelurahan = document.getElementById('selectKelurahan').value;
+            let kecamatan = document.getElementById('selectKecamatan').value;
+            let kabkota = document.getElementById('selectKabKota').value;
+            let prov = document.getElementById('selectProvinsi').value;
+
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                data: {
+                        'kelurahan': kelurahan,
+                        'kecamatan': kecamatan,
+                        'kabkota': kabkota,
+                        'provinsi': prov
+                      },
+                url: '/getKodePos',
+                success: function(val) {
+                    // console.log(val);
+                    $('#kodepospengirim_get').html(val);
+                }
+            });
+        });
+
+        $('#selectProvinsiPenerima').select2({
+            placeholder: 'Pilih Provinsi Penerima',
+            ajax: {
+                url: "{{ url('selectProvinsi') }}",
+                processResults: function({data}){
+                  return {
+                    results: $.map(data, function(item){
+                      return {
+                        id: item.province_code,
+                        text: item.province_name
+                      }
+                    })
+                  }
+                }
+            }
+        });
+
+        $("#selectProvinsiPenerima").change(function(){
+            let id = $('#selectProvinsiPenerima').val();
+
+            $('#selectKabKotaPenerima').select2({
+                placeholder: 'Pilih Kabupaten/Kota Penerima',
+                ajax: {
+                    url: "{{ url('selectKabKota') }}/"+ id,
+                    processResults: function({data}){
+                      return {
+                        results: $.map(data, function(item){
+                          return {
+                            id: item.city,
+                            text: item.city
+                          }
+                        })
+                      }
+                    }
+                }
+            });
+        });
+
+        $("#selectKabKotaPenerima").change(function(){
+            let id = $('#selectKabKotaPenerima').val();
+
+            $('#selectKecamatanPenerima').select2({
+                placeholder: 'Pilih Kecamatan Penerima',
+                ajax: {
+                    url: "{{ url('selectKecamatan') }}/"+ id,
+                    processResults: function({data}){
+                      return {
+                        results: $.map(data, function(item){
+                          return {
+                            id: item.sub_district,
+                            text: item.sub_district
+                          }
+                        })
+                      }
+                    }
+                }
+            });
+        });
+
+        $("#selectKecamatanPenerima").change(function(){
+            let id = $('#selectKecamatanPenerima').val();
+            let kabkota = document.getElementById('selectKabKotaPenerima').value;
+
+            $('#selectKelurahanPenerima').select2({
+                placeholder: 'Pilih Kelurahan Penerima',
+                ajax: {
+                    url: "{{ url('selectKelurahan') }}/"+ id +"/"+ kabkota,
+                    processResults: function({data}){
+                      return {
+                        results: $.map(data, function(item){
+                          return {
+                            id: item.urban,
+                            text: item.urban
+                          }
+                        })
+                      }
+                    }
+                }
+            });
+        });
+
+        $("#selectKelurahanPenerima").change(function(){
+            let kelurahan = document.getElementById('selectKelurahanPenerima').value;
+            let kecamatan = document.getElementById('selectKecamatanPenerima').value;
+            let kabkota = document.getElementById('selectKabKotaPenerima').value;
+            let prov = document.getElementById('selectProvinsiPenerima').value;
+
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                data: {
+                        'kelurahan': kelurahan,
+                        'kecamatan': kecamatan,
+                        'kabkota': kabkota,
+                        'provinsi': prov
+                      },
+                url: '/getKodePosPenerima',
+                success: function(val) {
+                    // console.log(val);
+                    $('#kodepospenerima_get').html(val);
+                }
+            });
+        });
+
         $('#tablePengiriman').DataTable({
             dom: 'Bfrtip',
             scrollX: true,

@@ -29,7 +29,7 @@
 
       <div class="mb-3">
         <label for="keterangan" class="form-label">Keterangan</label>
-        <textarea type="text" class="form-control @error('keterangan') is-invalid @enderror" id="keterangan" name="keterangan" value="{{ old('keterangan') }}"></textarea>
+        <textarea type="text" class="form-control @error('keterangan') is-invalid @enderror" id="keterangan" name="keterangan" value="{{ old('keterangan') }}" autofocus></textarea>
         @error('keterangan')
             <div class="invalid-feedback">
                 {{ $message }}

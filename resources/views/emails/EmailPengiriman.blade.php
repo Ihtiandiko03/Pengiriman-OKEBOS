@@ -23,8 +23,6 @@
     <p>Alamat Pengirim : {{ $details['alamat_pengirim'] }}</p>
     <p>Kodepos Pengirim : {{ $details['kodepos_pengirim'] }}</p>
     <p>Nomor HP Pengirim : {{ $details['nomorhp_pengirim'] }}</p>
-    <p>Nomor WA Pengirim : {{ $details['nomorwa_pengirim'] }}</p>
-
     <h3>Penerima</h3>
     <p>Nama Penerima : {{ $details['nama_penerima'] }}</p>
     <p>Provinsi Penerima : {{ $details['provinsi_penerima'] }}</p>
@@ -34,7 +32,6 @@
     <p>Alamat Penerima : {{ $details['alamat_penerima'] }}</p>
     <p>Kodepos Penerima : {{ $details['kodepos_penerima'] }}</p>
     <p>Nomor HP Penerima : {{ $details['nomorhp_penerima'] }}</p>
-    <p>Nomor WA Penerima : {{ $details['nomorwa_penerima'] }}</p>
 
     <p>Terima Kasih</p>
 </body>
