@@ -141,6 +141,33 @@ class RuteController extends Controller
         $getData = Rute::where('id', $id)->get();
         $getData2 = Provinces::where('province_name', $getData[0]->provinsi)->get();
 
+        if($_POST['is_active'] == 0){
+            $getData3 = DB::table('rutes')
+                        ->select(DB::raw('count(*) as total'))
+                        ->where('provinsi', $getData[0]->provinsi)
+                        ->where('is_active', 1)
+                        ->get();
+
+            if($getData3[0]->total == 1){
+                DB::table('db_province_data')
+                ->where('province_code', $getData2[0]->province_code)
+                ->update(['is_active' => $_POST['is_active']]);
+            }
+        }
+        else{
+            $getData3 = DB::table('rutes')
+                        ->select(DB::raw('count(*) as total'))
+                        ->where('provinsi', $getData[0]->provinsi)
+                        ->where('is_active', 1)
+                        ->get();
+
+            if($getData3[0]->total == 0){
+                DB::table('db_province_data')
+                ->where('province_code', $getData2[0]->province_code)
+                ->update(['is_active' => $_POST['is_active']]);
+            }
+        }
+
         Rute::where('id', '=', $id)->update(['is_active' => $_POST['is_active']]);
 
         DB::table('db_postal_code_data')
