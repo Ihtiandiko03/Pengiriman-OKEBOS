@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+
+
 
 class DashboardUserController extends Controller
 {
@@ -109,5 +113,41 @@ class DashboardUserController extends Controller
     public function destroy(User $user)
     {
         //
+    }
+
+    public function ubahpassword($id){
+        $getData = User::where('username', $id)->get();
+        
+        
+        return view('dashboard.profil.gantipassword', [
+            'user' => $getData,
+            'link' => 'Profil'
+        ]);
+
+    }
+
+    public function prosesgantipassword(Request $request, $id){
+        if($_POST){
+            $data = [
+                'email' => $id,
+                'password' => $request->password_lama
+            ];
+
+            if (Auth::attempt($data)) {
+                $gantiPassword = Hash::make($request->password_baru);
+                
+                $data2 = [
+                    'password' => $gantiPassword
+                ];
+
+                User::where('email', '=', $id)->update($data2);
+
+                echo ("<script LANGUAGE='JavaScript'>window.alert('Password Berhasil Diubah');window.location.href='/dashboard/profil';</script>");
+            }
+            else{
+                echo ("<script LANGUAGE='JavaScript'>window.alert('Password Tidak Cocok');window.location.href='/dashboard/profil';</script>");
+            }
+
+        }
     }
 }

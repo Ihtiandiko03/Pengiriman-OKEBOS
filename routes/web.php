@@ -87,6 +87,9 @@ Route::post('/register', [RegisterController::class, 'store']);
 Route::get('/dashboard', [LoginController::class, 'setelahlogin'])->middleware('auth');
 
 Route::resource('/dashboard/profil', DashboardUserController::class)->middleware('auth');
+Route::get('/dashboard/profil/ubahpassword/{id}', [DashboardUserController::class, 'ubahpassword'])->middleware('auth');
+Route::put('/dashboard/profil/prosesgantipassword/{id}', [DashboardUserController::class, 'prosesgantipassword'])->middleware('auth');
+
 Route::resource('/dashboard/pengiriman', ControllerFormPengiriman::class)->middleware('auth');
 Route::get('/dashboard/pengiriman/barangkeluar/index', [ControllerFormPengiriman::class, 'barangKeluar'])->middleware('auth');
 

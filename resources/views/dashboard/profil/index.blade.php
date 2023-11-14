@@ -121,6 +121,7 @@
             </div>
             <div class="card-body p-3">
               <a href="/dashboard/profil/{{ $user[0]->id }}/edit"><span class="badge badge-sm bg-gradient-info">Ubah Data Diri</span></a>
+              <a href="/dashboard/profil/ubahpassword/{{ $user[0]->username }}"><span class="badge badge-sm bg-gradient-warning">Ubah Password</span></a>
               
               <div class="card-body px-0 pt-0 pb-2">
               <div class="table-responsive p-0">
